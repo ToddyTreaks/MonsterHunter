@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerControlle : MonoBehaviour
@@ -19,21 +20,31 @@ public class PlayerControlle : MonoBehaviour
     private int nbJump = 1;
     private float velocityConvertJump = 0.3f;
     private float smoothDirection = 1f;
+    private float dashDistance = 5f;
+    private float dashTime = 0.2f;
+    private float waitDash = 0.5f;
     #endregion
 
 
     //for check ground method
-    private float _groundCheckDistance = 1f;
+    private float _groundCheckDistance = 0.7f;
 
     //for movement method
     private Vector3 input = Vector3.zero;
-    internal Vector3 moveDirection;                     // used to know the direction you're moving 
+    internal Vector3 moveDirection;  
+    internal bool stopMove = false;
     
     // for jump method
     private static bool _isJumping = false;
     private float _jumpCounter = 0f;
     private static bool _isGrounded = true;
     private float _mass;
+
+    //for dash method
+    private bool isDashing = false;
+    private bool canDash = true;
+    private bool waitForDash = false; //true if the Coroutine WaitForDash is undergoing
+    private float dashSpeed;
 
 
     //for physic material
@@ -77,6 +88,7 @@ public class PlayerControlle : MonoBehaviour
 
         _mass = _rigidbody.mass;
 
+        dashSpeed = dashDistance / dashTime;
     }
 
     #endregion
@@ -87,6 +99,8 @@ public class PlayerControlle : MonoBehaviour
         ApplyGravity();
         IsGrounded();
         ControlMaterialPhysics();
+        CanMove();
+        CanDash();
         ControlJumpBehaviour();
         AirControl();
     }
@@ -109,6 +123,7 @@ public class PlayerControlle : MonoBehaviour
     {
         InputMove();
         InputJump();
+        InputDash();
     }
 
     private void InputMove()
@@ -127,15 +142,25 @@ public class PlayerControlle : MonoBehaviour
         if (Input.GetButtonDown("Jump")) Jump();
         if (Input.GetButtonUp("Jump")) _isJumping = false;
     }
+
+    private void InputDash()
+    {
+        if (Input.GetButtonDown("Dash")) Dash();
+    }
     #endregion
 
     #region Movement
     private void Move()
     {
 
-        if (!_isGrounded || _isJumping) return;
+        if (!_isGrounded || _isJumping || stopMove || isDashing) return;
         var vitesse = speed * moveDirection;
         _rigidbody.MovePosition(vitesse * Time.deltaTime + transform.position);
+        /*        _rigidbody.velocity = new Vector3(vitesse.x, _rigidbody.velocity.y, vitesse.z);*/
+    }
+    public void CanMove()
+    {
+        stopMove = GroundAngle() >= slopeLimit;
     }
     #endregion
 
@@ -143,7 +168,7 @@ public class PlayerControlle : MonoBehaviour
     private void Jump() 
     {
 
-        if (_isJumping || !_isGrounded) return;
+        if (_isJumping || !_isGrounded || stopMove || isDashing) return;
             
         _isJumping = true;
         _jumpCounter = jumpTimer;
@@ -195,6 +220,45 @@ public class PlayerControlle : MonoBehaviour
 
                 targetVelocity.y = _rigidbody.velocity.y;
                 _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, targetVelocity, airSpeed * Time.deltaTime);*/
+    }
+    #endregion
+
+    #region Dash
+
+    void Dash()
+    {
+        if (!canDash || isDashing) return;
+        canDash = false;
+        isDashing = true;
+        _rigidbody.velocity = Vector3.zero;
+        if (moveDirection.magnitude>0.01) _rigidbody.AddForce(dashSpeed*moveDirection,ForceMode.VelocityChange);
+        else _rigidbody.AddForce(dashSpeed * transform.forward, ForceMode.VelocityChange);
+        StartCoroutine(DashCoroutine());
+    }
+
+    IEnumerator DashCoroutine()
+    {
+        yield return new WaitForSeconds(dashTime);
+        _rigidbody.velocity = Vector3.zero;
+        isDashing = false;
+        yield return null;
+    }
+
+    IEnumerator WaitForDash()
+    {
+        waitForDash = true;
+        yield return new WaitForSeconds(waitDash);
+        waitForDash = false;
+        canDash = true;
+        yield return null;
+    }
+
+    public void CanDash()
+    {
+        if (!canDash && _isGrounded && !waitForDash)
+        {
+            StartCoroutine(WaitForDash());
+        }
     }
     #endregion
 
@@ -271,10 +335,10 @@ public class PlayerControlle : MonoBehaviour
     public void IsGrounded()
     {
         var position = transform.position;
-        var origin = new Vector3(position.x, position.y + 0.5f, position.z);
+        var origin = new Vector3(position.x, position.y + 0.5f, position.z + 0.5f);
         var direction = transform.TransformDirection(Vector3.down);
 
-        Debug.DrawRay(origin, direction);
+        Debug.DrawLine(origin, origin+direction * _groundCheckDistance);
         _isGrounded = Physics.Raycast(origin, direction, out _groundHit, _groundCheckDistance);
     }
 
@@ -283,6 +347,5 @@ public class PlayerControlle : MonoBehaviour
         var groundAngle = Vector3.Angle(_groundHit.normal, Vector3.up);
         return groundAngle;
     }
-
     #endregion
 }

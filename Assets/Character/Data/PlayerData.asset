@@ -23,5 +23,5 @@ MonoBehaviour:
   nbJump: 1
   velocityConvertJump: 0.3
   airSpeed: 0.3
-  slopeLimit: 75
-  smoothDirection: 1
+  slopeLimit: 35
+  smoothDirection: 17

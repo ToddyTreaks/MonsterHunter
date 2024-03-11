@@ -54,4 +54,12 @@ public class PlayerData : ScriptableObject
     [Range(0, 90)]
     [Tooltip("smoothDirection")]
     public float smoothDirection = 1f;
+
+    [Range(0, 10)]
+    [Tooltip("distance Dash")]
+    private float dashDistance = 5f;
+
+    [Range(0, 1)]
+    [Tooltip("dash Time")]
+    private float dashTime = 0.2f;
 }
