@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7296485467914108902}
-  - component: {fileID: 3755343823773626171}
+  - component: {fileID: 2740851681211218715}
   - component: {fileID: 4946814890549668013}
   - component: {fileID: 6919285526521353397}
   m_Layer: 0
@@ -160,8 +160,8 @@ Transform:
   - {fileID: 6025779376478249626}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &3755343823773626171
-CharacterController:
+--- !u!136 &2740851681211218715
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -178,13 +178,10 @@ CharacterController:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2.5
+  serializedVersion: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_Height: 2.5
+  m_Direction: 1
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!54 &4946814890549668013
 Rigidbody:
@@ -226,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  rotateCamera: {fileID: 0}
 --- !u!1001 &2897905622205589946
 PrefabInstance:
   m_ObjectHideFlags: 0
