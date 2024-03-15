@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   Speed: 10
+  rotationSpeed: 7
   ForceGravity: 20
   MouseSensitivity: 1
   MaxLookAngle: 35
@@ -25,3 +26,5 @@ MonoBehaviour:
   airSpeed: 0.3
   slopeLimit: 35
   smoothDirection: 17
+  dashDistance: 6.9
+  dashTime: 0.14

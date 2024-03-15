@@ -1,67 +1,76 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerControlle : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject rotateCamera;
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private Transform _cameratTransform;
+
+    private PlayerAnimatorControl _anim;
+    private Animator _animator;
 
     #region ScriptableVariable
-    private float speed = 5f;
-    private float gravityValue = 20f;
-    private int mouseSensitivity = 1;
-    private int maxLookAngle = 35;
-    private int minLookAngle = -30;
-    private float jumpForce = 6f;
-    private float jumpTimer = 0.5f;
-    private float slopeLimit = 75f;
-    private float airSpeed = 0.3f; //between [0,1]
-    private float jumpHeight = 4f;
-    private int nbJump = 1;
-    private float velocityConvertJump = 0.3f;
-    private float smoothDirection = 1f;
-    private float dashDistance = 5f;
-    private float dashTime = 0.2f;
-    private float waitDash = 0.5f;
+
+    internal float speed;
+    private float rotationSpeed;
+    private float gravityValue;
+    private float jumpForce;
+    private float jumpTimer;
+    private float slopeLimit;
+    private float airSpeed; //between [0,1]
+    private float jumpHeight;
+    private int nbJump;
+    private float velocityConvertJump;
+    private float smoothDirection;
+    private float dashDistance;
+    private float dashTime;
+    private float waitDash;
     #endregion
 
-
+    #region Variable
     //for check ground method
-    private float _groundCheckDistance = 0.7f;
+    internal float _groundCheckDistance = 0.7f;
+    internal float distanceToGround;
 
     //for movement method
-    private Vector3 input = Vector3.zero;
-    internal Vector3 moveDirection;  
+    internal Vector3 input = Vector3.zero;
+    internal Vector3 moveDirection;
     internal bool stopMove = false;
-    
+
     // for jump method
-    private static bool _isJumping = false;
-    private float _jumpCounter = 0f;
-    private static bool _isGrounded = true;
-    private float _mass;
+    internal static bool _isJumping = false;
+    internal float _jumpCounter = 0f;
+    internal bool _isGrounded = true;
+    internal float _mass;
 
     //for dash method
-    private bool isDashing = false;
-    private bool canDash = true;
-    private bool waitForDash = false; //true if the Coroutine WaitForDash is undergoing
-    private float dashSpeed;
+    internal bool isDashing = false;
+    internal bool canDash = true;
+    internal bool waitForDash = false; //true if the Coroutine WaitForDash is undergoing
+    internal float dashSpeed;
 
+    //for attack method
+    internal enum Attack
+    {
+        quickAttack = 0, longAttack = 1,
+    }
+    internal Attack typeAttack;
 
     //for physic material
     private Rigidbody _rigidbody;
     internal PhysicMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics;
     internal CapsuleCollider _capsuleCollider;
     internal RaycastHit _groundHit;
+    #endregion
 
     #region Init
 
     void InitPlayerData()
     {
         speed = playerData.Speed;
+        rotationSpeed = playerData.rotationSpeed;
         gravityValue = playerData.ForceGravity;
-        mouseSensitivity = playerData.MouseSensitivity;
-        maxLookAngle = playerData.MaxLookAngle;
-        minLookAngle = playerData.MinLookAngle;
         jumpForce = playerData.JumpForce;
         jumpTimer = playerData.JumpTimer;
         jumpHeight = playerData.JumpHeight;
@@ -70,6 +79,8 @@ public class PlayerControlle : MonoBehaviour
         airSpeed = playerData.airSpeed;
         slopeLimit = playerData.slopeLimit;
         smoothDirection = playerData.smoothDirection;
+        dashDistance = playerData.dashDistance;
+        dashTime = playerData.dashTime;
     }
     // Start is called before the first frame update
     void Start()
@@ -82,6 +93,11 @@ public class PlayerControlle : MonoBehaviour
 
         _capsuleCollider = GetComponent<CapsuleCollider>();
         if (_capsuleCollider == null) Debug.LogError("no capsuleCollider on player");
+
+        _anim = GetComponent<PlayerAnimatorControl>();
+        if (_anim == null) Debug.LogError("no PlayerAnimatorControl");
+
+        _animator = GetComponent<Animator>();
 
         airSpeed = Mathf.Clamp(airSpeed, 0f, 1f);
         airSpeed = speed * airSpeed; //prevent airspeed to be superior as speed
@@ -112,8 +128,9 @@ public class PlayerControlle : MonoBehaviour
 
     void Update()
     {
-        UpDateInput();
         Rotate();
+        _anim.UpdateAnimation();
+        UpDateInput();
     }
 
     #endregion
@@ -124,12 +141,13 @@ public class PlayerControlle : MonoBehaviour
         InputMove();
         InputJump();
         InputDash();
+        InputAttack();
     }
 
     private void InputMove()
     {
-        var dirVertical = Input.GetAxisRaw("Vertical") * transform.forward;
-        var dirHorizontal = Input.GetAxisRaw("Horizontal") * transform.right;
+        var dirVertical = Input.GetAxisRaw("Vertical") * _cameratTransform.forward;
+        var dirHorizontal = Input.GetAxisRaw("Horizontal") * _cameratTransform.right;
         input = (dirHorizontal + dirVertical).normalized;
 
         moveDirection = (input.magnitude < 0.01)
@@ -146,6 +164,21 @@ public class PlayerControlle : MonoBehaviour
     private void InputDash()
     {
         if (Input.GetButtonDown("Dash")) Dash();
+    }
+
+    private void InputAttack()
+    {
+        if (Input.GetButtonDown("quickAttack"))
+        {
+            QuickAttack();
+            return;
+        }
+
+        if (Input.GetButtonDown("longAttack"))
+        {
+            LongAttack();
+            return;
+        }
     }
     #endregion
 
@@ -186,6 +219,9 @@ public class PlayerControlle : MonoBehaviour
             vel.x = dir.x;
             _rigidbody.velocity = vel;
         }
+
+        //animation
+        _animator.CrossFade("jump",0.1f);
     }
 
     private void ControlJumpBehaviour()
@@ -227,12 +263,13 @@ public class PlayerControlle : MonoBehaviour
 
     void Dash()
     {
-        if (!canDash || isDashing) return;
+        if (!canDash || isDashing || stopMove) return;
         canDash = false;
         isDashing = true;
         _rigidbody.velocity = Vector3.zero;
         if (moveDirection.magnitude>0.01) _rigidbody.AddForce(dashSpeed*moveDirection,ForceMode.VelocityChange);
         else _rigidbody.AddForce(dashSpeed * transform.forward, ForceMode.VelocityChange);
+        _animator.CrossFade("Dash", 0.1f);
         StartCoroutine(DashCoroutine());
     }
 
@@ -262,22 +299,31 @@ public class PlayerControlle : MonoBehaviour
     }
     #endregion
 
+    #region Attack
+
+    public void QuickAttack()
+    {
+        typeAttack = Attack.quickAttack;
+        _animator.CrossFade("Attack", 0.1f);
+    }
+
+    public void LongAttack()
+    {
+        typeAttack = Attack.longAttack;
+        _animator.CrossFade("Attack", 0.1f);
+    }
+    #endregion
+
     #region Rotation
     private void Rotate()
     {
-        var yaw = mouseSensitivity * Input.GetAxis("Mouse X");
-
-        var pitch = -mouseSensitivity * Input.GetAxis("Mouse Y");
-
-        transform.localEulerAngles += new Vector3(0, yaw, 0);
-
-        var rotation = rotateCamera.transform.localEulerAngles + new Vector3(pitch, 0, 0);
-
-        rotation.x = ClampRotation(rotation.x, minLookAngle, maxLookAngle);
-
-        rotateCamera.transform.localEulerAngles = rotation;
+        var direction = moveDirection;
+        direction.y = 0f;
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
+        Quaternion _newRotation = Quaternion.LookRotation(desiredForward);
+        transform.rotation = _newRotation;
     }
-    private static float ClampRotation(float angle, float min, float max)
+    public static float ClampRotation(float angle, float min, float max)
     {
         if (angle < 0) angle += 360;
         return angle > 180f ? Mathf.Max(angle, 360 + min) : Mathf.Min(angle, max);
@@ -340,6 +386,9 @@ public class PlayerControlle : MonoBehaviour
 
         Debug.DrawLine(origin, origin+direction * _groundCheckDistance);
         _isGrounded = Physics.Raycast(origin, direction, out _groundHit, _groundCheckDistance);
+
+        Physics.Raycast(position, Vector3.down, out var hitInfo, Single.PositiveInfinity);
+        distanceToGround = hitInfo.distance;
     }
 
     public float GroundAngle()

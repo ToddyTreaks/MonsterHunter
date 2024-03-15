@@ -7,6 +7,10 @@ public class PlayerData : ScriptableObject
     [Tooltip("Speed")]
     public int Speed = 5;
 
+    [Range(1, 10)]
+    [Tooltip("rotation Speed")]
+    public int rotationSpeed = 7;
+
     [Range(1, 100)]
     [Tooltip("ExtraForceGravity")]
     public int ForceGravity = 20;
@@ -57,9 +61,9 @@ public class PlayerData : ScriptableObject
 
     [Range(0, 10)]
     [Tooltip("distance Dash")]
-    private float dashDistance = 5f;
+    public float dashDistance = 5f;
 
     [Range(0, 1)]
     [Tooltip("dash Time")]
-    private float dashTime = 0.2f;
+    public float dashTime = 0.2f;
 }
