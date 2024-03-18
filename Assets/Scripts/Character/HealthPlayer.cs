@@ -7,7 +7,7 @@ public class HealthPlayer : HealthSystem
 
     [SerializeField] PlayerData _playerData;
     [SerializeField] HealthUi _healthUi;
-    private int maxLife;
+    private float maxLife;
     void Awake()
     {
         maxLife = _playerData.maxLife;
@@ -15,7 +15,7 @@ public class HealthPlayer : HealthSystem
     SetMaxLife(maxLife);
     }
 
-    public void ApplyDamage(int damage)
+    public void ApplyDamage(float damage)
     {
         Damage(damage);
         _healthUi.UpdateFill(GetHealth(), maxLife);

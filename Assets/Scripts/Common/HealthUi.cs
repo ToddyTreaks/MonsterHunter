@@ -13,7 +13,7 @@ public class HealthUi : MonoBehaviour
         rectTransform.anchorMax = new Vector2(1, 1);
     }
 
-    public void UpdateFill(int health, int maxhealth)
+    public void UpdateFill(float health, float maxhealth)
     {
         if (maxhealth != 0)
         {
