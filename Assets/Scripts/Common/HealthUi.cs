@@ -5,6 +5,8 @@ using UnityEngine;
 public class HealthUi : MonoBehaviour
 {
     RectTransform rectTransform;
+    [SerializeField] private RectTransform _smooRectTransform;
+
     private int tempsDeDeplacement = 2;
 
     void Start()
@@ -18,7 +20,8 @@ public class HealthUi : MonoBehaviour
         if (maxhealth != 0)
         {
             var rectTarget = new Vector2((float)health / (float)maxhealth, 1);
-            StartCoroutine(FillSmooth(rectTransform.anchorMax, rectTarget));
+            rectTransform.anchorMax = rectTarget;
+            StartCoroutine(FillSmooth(_smooRectTransform.anchorMax, rectTarget));
         }
     }
 
@@ -29,12 +32,12 @@ public class HealthUi : MonoBehaviour
 
         while (elapsedTime < tempsDeDeplacement)
         {
-            rectTransform.anchorMax = Vector2.Lerp(positionInitiale, destination, elapsedTime / tempsDeDeplacement);
+            _smooRectTransform.anchorMax = Vector2.Lerp(positionInitiale, destination, elapsedTime / tempsDeDeplacement);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         // Assurer que la position finale est atteinte exactement
-        rectTransform.anchorMax = destination;
+        _smooRectTransform.anchorMax = destination;
         yield return null;
     }
 }
