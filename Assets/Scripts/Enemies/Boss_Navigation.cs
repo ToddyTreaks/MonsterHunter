@@ -1,0 +1,134 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class Boss_Navigation : MonoBehaviour
+{
+    public Transform player;
+    private NavMeshAgent _agent;
+    private BossAnimatorControl _bossAnimatorControl;
+
+    #region Variables
+
+    internal float Speed = 0f;
+    internal float Attack = 0f;
+    internal float Invocation = 0f;
+    internal float Shoot = 1f;
+    internal bool IsAttacking = false;
+    internal bool IsFighting = false;
+    internal bool IsDead = false;
+    
+    
+    [SerializeField] private Transform[] _waypoints;
+    private Transform randomWayPoint;
+    
+    #endregion
+    
+    #region Start
+    
+    void Start()
+    {
+        
+        _agent = GetComponent<NavMeshAgent>();
+        _bossAnimatorControl = GetComponent<BossAnimatorControl>();
+        SetWayPoints();
+    }
+    
+    #endregion
+
+    #region Update
+
+    void FixedUpdate()
+    {
+        FightStatusUpdate();
+    }
+    void Update()
+    {
+        Speed = _agent.velocity.magnitude;
+        _bossAnimatorControl.UpdateAnimation();
+    }
+
+    #endregion
+    
+    #region FightStatus
+
+    void FightStatusUpdate()
+    {
+        HasFightingStatusChanged();
+        
+        if (IsFighting) 
+            InFightUpdate();
+        else 
+            OutOfFightUpdate();
+    }
+    
+    void HasFightingStatusChanged()
+    {
+        if (!IsFighting && Vector3.Distance(transform.position, player.position) < 10f )
+        {
+            GetInFight();
+        }
+        else if(IsFighting && Vector3.Distance(transform.position, player.position) > 20f )
+        {
+            GotOutOfFight();
+        }
+    }
+    
+    #endregion
+    
+    #region OutOfFight
+    
+    void GotOutOfFight()
+    {
+        IsFighting = false;
+    }
+    
+    void OutOfFightUpdate()
+    {
+        if (Vector3.Distance(transform.position, randomWayPoint.position) < 1f)
+        {
+            SetWayPoints();
+            ToWayPoints();
+        }
+        else
+        {
+            ToWayPoints();
+        }
+    }
+    
+    void SetWayPoints()
+    {
+        randomWayPoint = _waypoints[Random.Range(0, _waypoints.Length)];
+    }
+    
+    void ToWayPoints()
+    {
+        _agent.SetDestination(randomWayPoint.position);
+    }
+    
+    
+    #endregion
+    
+    #region InFight
+    void InFightUpdate()
+    {
+        _agent.SetDestination(player.position);
+    }
+    
+    void GetInFight()
+    {
+        IsFighting = true;
+    }
+    
+    #endregion
+
+    #region Death
+
+    void Death()
+    {
+        IsDead = true;
+    }
+
+    #endregion
+}
