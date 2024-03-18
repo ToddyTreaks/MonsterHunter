@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    private int _maxLife;
-    private int _health;
+    private float _maxLife;
+    private float _health;
 
     void Start()
     {
         _health = _maxLife;
     }
 
-    public void Damage(int health)
+    public void Damage(float health)
     {
         _health -= health;
         if (_health <= 0)
@@ -21,7 +21,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public void Heal(int health)
+    public void Heal(float health)
     {
         _health += health;
         if (_health > _maxLife)
@@ -30,7 +30,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public int GetHealth()
+    public float GetHealth()
     { return _health; }
 
     public void SetMaxLife(int maxLife)

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Boss_Navigation : MonoBehaviour
 {
@@ -19,13 +21,22 @@ public class Boss_Navigation : MonoBehaviour
     internal bool IsFighting = false;
     internal bool IsDead = false;
     
+    private float maxHealth = 100f;
+    private HealthSystem _healthSystem;
+    
     
     [SerializeField] private Transform[] _waypoints;
     private Transform randomWayPoint;
     
     #endregion
     
-    #region Start
+    #region Initialization
+
+    private void Awake()
+    {
+        _healthSystem = GetComponent<HealthSystem>();
+        _healthSystem.SetMaxLife(maxHealth);
+    }
     
     void Start()
     {
