@@ -1252,7 +1252,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 29342156862379288, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
   m_PrefabInstance: {fileID: 8917736560309925925}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1580369522
+--- !u!114 &1580369523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1261,7 +1261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1580369516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57d46b88e16ad954993bbce0f220503b, type: 3}
+  m_Script: {fileID: 11500000, guid: 15c447094c353964a96318aecf1948b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1742444853
@@ -1571,10 +1571,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 827542861}
     - target: {fileID: 2166508476406195330, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
-      propertyPath: _waypoints.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166508476406195330, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
       propertyPath: _waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1005763805}
@@ -1596,7 +1592,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 29342156862379288, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1580369522}
+      addedObject: {fileID: 1580369523}
   m_SourcePrefab: {fileID: 100100000, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
