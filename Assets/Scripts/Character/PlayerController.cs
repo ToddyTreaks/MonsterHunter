@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     #region Variable
     //for check ground method
-    internal float _groundCheckDistance = 0.7f;
+    internal float _groundCheckDistance = 1f;
     internal float distanceToGround;
 
     //for movement method
@@ -128,8 +128,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Rotate();
         _anim.UpdateAnimation();
+        Rotate();
         UpDateInput();
     }
 
@@ -168,6 +168,7 @@ public class PlayerController : MonoBehaviour
 
     private void InputAttack()
     {
+        if (_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
         if (Input.GetButtonDown("quickAttack"))
         {
             QuickAttack();
@@ -268,7 +269,7 @@ public class PlayerController : MonoBehaviour
         isDashing = true;
         _rigidbody.velocity = Vector3.zero;
         if (moveDirection.magnitude>0.01) _rigidbody.AddForce(dashSpeed*moveDirection,ForceMode.VelocityChange);
-        else _rigidbody.AddForce(dashSpeed * transform.forward, ForceMode.VelocityChange);
+        else _rigidbody.AddForce(-dashSpeed * transform.forward, ForceMode.VelocityChange);
         _animator.CrossFade("Dash", 0.1f);
         StartCoroutine(DashCoroutine());
     }

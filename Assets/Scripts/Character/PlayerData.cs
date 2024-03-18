@@ -7,7 +7,7 @@ public class PlayerData : ScriptableObject
     [Tooltip("Speed")]
     public int Speed = 5;
 
-    [Range(1, 10)]
+    [Range(1, 20)]
     [Tooltip("rotation Speed")]
     public int rotationSpeed = 7;
 
@@ -66,4 +66,7 @@ public class PlayerData : ScriptableObject
     [Range(0, 1)]
     [Tooltip("dash Time")]
     public float dashTime = 0.2f;
+
+    [Range(0, 1000)] [Tooltip("Point life")]
+    public int maxLife = 200;
 }
