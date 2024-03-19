@@ -50,13 +50,6 @@ public class PlayerController : MonoBehaviour
     internal bool waitForDash = false; //true if the Coroutine WaitForDash is undergoing
     internal float dashSpeed;
 
-    //for attack method
-    internal enum Attack
-    {
-        quickAttack = 0, longAttack = 1,
-    }
-    internal Attack typeAttack;
-
     //for physic material
     private Rigidbody _rigidbody;
     internal PhysicMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics;
@@ -141,7 +134,6 @@ public class PlayerController : MonoBehaviour
         InputMove();
         InputJump();
         InputDash();
-        InputAttack();
     }
 
     private void InputMove()
@@ -164,22 +156,6 @@ public class PlayerController : MonoBehaviour
     private void InputDash()
     {
         if (Input.GetButtonDown("Dash")) Dash();
-    }
-
-    private void InputAttack()
-    {
-        if (_animator.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
-        if (Input.GetButtonDown("quickAttack"))
-        {
-            QuickAttack();
-            return;
-        }
-
-        if (Input.GetButtonDown("longAttack"))
-        {
-            LongAttack();
-            return;
-        }
     }
     #endregion
 
@@ -297,21 +273,6 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(WaitForDash());
         }
-    }
-    #endregion
-
-    #region Attack
-
-    public void QuickAttack()
-    {
-        typeAttack = Attack.quickAttack;
-        _animator.CrossFade("Attack", 0.1f);
-    }
-
-    public void LongAttack()
-    {
-        typeAttack = Attack.longAttack;
-        _animator.CrossFade("Attack", 0.1f);
     }
     #endregion
 
