@@ -6,18 +6,19 @@ public abstract class Item : MonoBehaviour
     public string description;
     public Sprite icon;
 
-    private int _amount;
-    private int _amountStockableMax;
+    protected int _amount;
+    protected int _amountStockableMax;
 
-    public int Amount
+    public void Add(int nb)
     {
-        get { return _amount; }
-        set { _amount = value; }
-    }
-    public int AmountStockableMax
-    {
-        get { return _amountStockableMax; }
-        set { _amountStockableMax = value; }
+        _amount += nb;
+        if (_amount > _amountStockableMax) 
+        { _amount = _amountStockableMax; }
     }
 
+    public void Remove(int nb)
+    {
+        _amount -= nb;
+        if (_amount<=0) { _amount = 0; }
+    }
 }
