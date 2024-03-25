@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (PlayerController.StopPlayer) return;
         RotateCamera();
     }
 

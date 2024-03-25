@@ -19,6 +19,7 @@ public class AttackScript : MonoBehaviour
 
     void Update()
     {
+        if (PlayerController.StopPlayer) return;
         InputAttack();
     }
 

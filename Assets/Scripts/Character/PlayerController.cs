@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Assets.Scripts.Character.Objet;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -29,6 +30,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Variable
+    //Static variable
+    public static bool StopPlayer = false;
+
     //for check ground method
     internal float _groundCheckDistance = 1f;
     internal float distanceToGround;
@@ -98,6 +102,8 @@ public class PlayerController : MonoBehaviour
         _mass = _rigidbody.mass;
 
         dashSpeed = dashDistance / dashTime;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     #endregion
@@ -116,12 +122,14 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         UpdateMotor();
+        if (StopPlayer) return;
         Move();
     }
 
     void Update()
     {
         _anim.UpdateAnimation();
+        if (StopPlayer) return;
         Rotate();
         UpDateInput();
     }
@@ -170,7 +178,7 @@ public class PlayerController : MonoBehaviour
     }
     public void CanMove()
     {
-        stopMove = GroundAngle() >= slopeLimit;
+        stopMove = (GroundAngle() >= slopeLimit || StopPlayer);
     }
     #endregion
 

@@ -16,14 +16,23 @@ namespace Assets.Scripts.Character.Objet
             Inventory.Add(item);
             Debug.Log(item.name);
         }
+
+        private void RemoveItem(Item item)
+        {
+            if (Inventory.Find(x => x == item))
+            {
+                item.Remove(1);
+            }
+            Inventory.Remove(item);
+        }
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+/*            if (Input.GetKeyDown(KeyCode.E))
             {
                 var pot = new Potion();
                 pot.name = "potion";
                 AddItem(pot);
-            }
+            }*/
         }
     }
 }
