@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class AttackData : ScriptableObject
 {
     [Range(10, 1000)] [Tooltip("Quick attack damage")]

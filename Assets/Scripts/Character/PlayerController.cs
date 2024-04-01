@@ -33,6 +33,12 @@ public class PlayerController : MonoBehaviour
     //Static variable
     public static bool StopPlayer = false;
 
+    //Variable for item to use items
+    public static bool isUseItem;
+    
+    //For interact method
+    public static bool isInteract = false;
+
     //for check ground method
     internal float _groundCheckDistance = 1f;
     internal float distanceToGround;
@@ -129,9 +135,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _anim.UpdateAnimation();
+        UpDateInput();
         if (StopPlayer) return;
         Rotate();
-        UpDateInput();
     }
 
     #endregion
@@ -142,6 +148,7 @@ public class PlayerController : MonoBehaviour
         InputMove();
         InputJump();
         InputDash();
+        InputInteract();
     }
 
     private void InputMove()
@@ -164,6 +171,11 @@ public class PlayerController : MonoBehaviour
     private void InputDash()
     {
         if (Input.GetButtonDown("Dash")) Dash();
+    }
+
+    private static void InputInteract()
+    {
+        if (Input.GetButtonDown("Interact")) isInteract = true;
     }
     #endregion
 
