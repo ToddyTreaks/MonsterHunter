@@ -7,9 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Boss_Navigation : MonoBehaviour
 {
-    public Transform player;
-    private NavMeshAgent _agent;
-    private BossAnimatorControl _bossAnimatorControl;
+    
 
     #region Variables
 
@@ -24,6 +22,10 @@ public class Boss_Navigation : MonoBehaviour
     private float maxHealth = 100f;
     private HealthSystem _healthSystem;
     private DetectionRange _detectionRange;
+    
+    public Transform player;
+    private NavMeshAgent _agent;
+    private BossAnimatorControl _bossAnimatorControl;
     
     
     [SerializeField] private Transform[] _waypoints;
