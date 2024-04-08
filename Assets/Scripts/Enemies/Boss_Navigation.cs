@@ -23,6 +23,7 @@ public class Boss_Navigation : MonoBehaviour
     
     private float maxHealth = 100f;
     private HealthSystem _healthSystem;
+    private DetectionRange _detectionRange;
     
     
     [SerializeField] private Transform[] _waypoints;
@@ -36,11 +37,12 @@ public class Boss_Navigation : MonoBehaviour
     {
         _healthSystem = GetComponent<HealthSystem>();
         _healthSystem.SetMaxLife(maxHealth);
+        
     }
     
     void Start()
     {
-        
+        _detectionRange = GetComponent<DetectionRange>();
         _agent = GetComponent<NavMeshAgent>();
         _bossAnimatorControl = GetComponent<BossAnimatorControl>();
         SetWayPoints();
@@ -76,11 +78,11 @@ public class Boss_Navigation : MonoBehaviour
     
     void HasFightingStatusChanged()
     {
-        if (!IsFighting && Vector3.Distance(transform.position, player.position) < 10f )
+        if (_detectionRange.isPlayerDetected && !IsFighting)
         {
             GetInFight();
         }
-        else if(IsFighting && Vector3.Distance(transform.position, player.position) > 20f )
+        else if(!_detectionRange.isPlayerDetected && IsFighting)
         {
             GotOutOfFight();
         }
