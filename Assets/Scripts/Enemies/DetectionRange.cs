@@ -19,25 +19,39 @@ public class DetectionRange : MonoBehaviour
         if (Physics.CheckSphere(transform.position, _aggroRange, _playerLayer))
         {
             if (!isPlayerDetected)
+            {
                 isPlayerDetected = true;
+                Debug.Log("Player Detected");
+            }
+
         }
         
         if (Physics.CheckSphere(transform.position, _attackRange, _playerLayer))
         {
             if (!isPlayerInCloseAttackRange)
+            {
                 isPlayerInCloseAttackRange = true;
+                Debug.Log("Player in range");
+            }
         }
         
         if (!Physics.CheckSphere(transform.position, _attackRange, _playerLayer))
         {
             if (isPlayerInCloseAttackRange)
+            {
                 isPlayerInCloseAttackRange = false;
+                Debug.Log("Player not in range anymore");
+            }
+            
         }
         
         if (!Physics.CheckSphere(transform.position, _lostAggroRange, _playerLayer))
         {
             if (isPlayerDetected)
+            {
                 isPlayerDetected = false;
+                Debug.Log("Player Lost");
+            }
         }
     }
 }

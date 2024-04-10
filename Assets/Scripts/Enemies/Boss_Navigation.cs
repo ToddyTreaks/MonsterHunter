@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -11,7 +12,7 @@ public class Boss_Navigation : MonoBehaviour
 
     #region Variables
 
-    internal float Speed = 0f;
+    internal float Speed;
     internal float Attack = 0f;
     internal float Invocation = 0f;
     internal float Shoot = 1f;
@@ -19,13 +20,15 @@ public class Boss_Navigation : MonoBehaviour
     internal bool IsFighting = false;
     internal bool IsDead = false;
     
+    [SerializeField] private float stoppingDistance = 2f;
+    
     private float maxHealth = 100f;
     private HealthSystem _healthSystem;
     private DetectionRange _detectionRange;
     
-    public Transform player;
-    private NavMeshAgent _agent;
-    private BossAnimatorControl _bossAnimatorControl;
+    [SerializeField] internal Transform player;
+    internal NavMeshAgent _agent;
+    private Animator _animator;
     
     
     [SerializeField] private Transform[] _waypoints;
@@ -46,8 +49,10 @@ public class Boss_Navigation : MonoBehaviour
     {
         _detectionRange = GetComponent<DetectionRange>();
         _agent = GetComponent<NavMeshAgent>();
-        _bossAnimatorControl = GetComponent<BossAnimatorControl>();
+        _animator = GetComponent<Animator>();
         SetWayPoints();
+        _agent.stoppingDistance = stoppingDistance;
+        Speed = _agent.speed;
     }
     
     #endregion
@@ -60,8 +65,8 @@ public class Boss_Navigation : MonoBehaviour
     }
     void Update()
     {
-        Speed = _agent.velocity.magnitude;
-        _bossAnimatorControl.UpdateAnimation();
+        
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
 
     #endregion
@@ -72,9 +77,9 @@ public class Boss_Navigation : MonoBehaviour
     {
         HasFightingStatusChanged();
         
-        if (IsFighting) 
-            InFightUpdate();
-        else 
+        if (IsFighting)
+            _agent.SetDestination(player.position);
+        else
             OutOfFightUpdate();
     }
     
@@ -83,6 +88,10 @@ public class Boss_Navigation : MonoBehaviour
         if (_detectionRange.isPlayerDetected && !IsFighting)
         {
             GetInFight();
+        }
+        else if(!IsFighting)
+        {
+            
         }
         else if(!_detectionRange.isPlayerDetected && IsFighting)
         {
@@ -96,12 +105,14 @@ public class Boss_Navigation : MonoBehaviour
     
     void GotOutOfFight()
     {
+        _animator.SetBool("isFighting", false);
         IsFighting = false;
+        Debug.Log("GotOutOfFight");
     }
     
     void OutOfFightUpdate()
     {
-        if (Vector3.Distance(transform.position, randomWayPoint.position) < 1f)
+        if (Vector3.Distance(transform.position, randomWayPoint.position) < 5f)
         {
             SetWayPoints();
             ToWayPoints();
@@ -126,14 +137,12 @@ public class Boss_Navigation : MonoBehaviour
     #endregion
     
     #region InFight
-    void InFightUpdate()
-    {
-        _agent.SetDestination(player.position);
-    }
     
     void GetInFight()
     {
+        _animator.SetBool("isFighting", true);
         IsFighting = true;
+        Debug.Log("GetInFight");
     }
     
     #endregion
