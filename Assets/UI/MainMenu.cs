@@ -5,13 +5,17 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup _mainMenuPanel;
-    [SerializeField] private CanvasGroup _optionsPanel;
-    [SerializeField] private CanvasGroup _creditsPanel;
+    [SerializeField] private GameObject _mainMenuPanel;
+    [SerializeField] private GameObject _optionsPanel;
+    [SerializeField] private GameObject _creditsPanel;
     
-    [SerializeField] private CanvasGroup _blackerScreen;
-    [SerializeField] private CanvasGroup _loadingScreen;
+    [SerializeField] private GameObject _loadingScreen;
     [SerializeField] private Slider loadingSlider;
+    
+    
+    private Animator _menuAnimator;
+    private Animator _optionsAnimator;
+    private Animator _creditsAnimator;
     
     void Start()
     {
@@ -19,11 +23,10 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         
-        _mainMenuPanel.gameObject.SetActive(true);
-        _optionsPanel.gameObject.SetActive(false);
-        _creditsPanel.gameObject.SetActive(false);
-        _loadingScreen.gameObject.SetActive(false);
-        _blackerScreen.gameObject.SetActive(false);
+        _menuAnimator = _mainMenuPanel.GetComponent<Animator>();
+        _optionsAnimator = _optionsPanel.GetComponent<Animator>();
+        _creditsAnimator = _creditsPanel.GetComponent<Animator>();
+        
     }
 
     
@@ -37,11 +40,7 @@ public class MainMenu : MonoBehaviour
     IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
-        _mainMenuPanel.gameObject.SetActive(false);
-        _mainMenuPanel.alpha = 0;
-        
-        _loadingScreen.gameObject.SetActive(true);
-        _loadingScreen.alpha = 1;
+        _loadingScreen.SetActive(true);
 
         while (!operation.isDone)
         {
@@ -54,38 +53,9 @@ public class MainMenu : MonoBehaviour
     
     public void QuitGame()
     {
-        Debug.Log("QUIT!");
         Application.Quit();
     }
-
-    public void CreditMenu()
-    {
-        _mainMenuPanel.gameObject.SetActive(false);
-        _blackerScreen.gameObject.SetActive(true);
-        _creditsPanel.gameObject.SetActive(true);
-        
-    }
     
-    public void OptionsMenu()
-    {
-        _mainMenuPanel.gameObject.SetActive(false);
-        _blackerScreen.gameObject.SetActive(true);
-        _optionsPanel.gameObject.SetActive(true);
-    }
-
-    public void OptionsMainMenuButton()
-    {
-        _optionsPanel.gameObject.SetActive(false);
-        _blackerScreen.gameObject.SetActive(false);
-        _mainMenuPanel.gameObject.SetActive(true);
-    }
-    
-    public void CreditsMainMenuButton()
-    {
-        _creditsPanel.gameObject.SetActive(false);
-        _blackerScreen.gameObject.SetActive(false);
-        _mainMenuPanel.gameObject.SetActive(true);
-    }
     
     
         
