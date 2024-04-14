@@ -12,25 +12,26 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject _loadingScreen;
     [SerializeField] private Slider loadingSlider;
     
+    [SerializeField] private GameObject logo;
+    [SerializeField] private GameObject buttonsMainMenu;
+
     
-    private Animator _menuAnimator;
-    private Animator _optionsAnimator;
-    private Animator _creditsAnimator;
     
     void Start()
     {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
-        _menuAnimator = _mainMenuPanel.GetComponent<Animator>();
-        _optionsAnimator = _optionsPanel.GetComponent<Animator>();
-        _creditsAnimator = _creditsPanel.GetComponent<Animator>();
-        
     }
-
     
-
+    private void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            logo.GetComponent<Animator>().SetTrigger("OnAnyKeyDown");
+            buttonsMainMenu.GetComponent<Animator>().SetTrigger("OnAnyKeyDown");
+        }
+    }
 
     public void PlayGame()
     {
