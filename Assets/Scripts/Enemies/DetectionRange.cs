@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DetectionRange : MonoBehaviour
 {
-    [SerializeField] private float _aggroRange = 10f;
-    [SerializeField] private float _attackRange = 2f;
-    [SerializeField] private float _lostAggroRange = 20f;
+    [SerializeField] internal float _aggroRange = 10f;
+    [SerializeField] internal float _attackRange = 2f;
+    [SerializeField] internal float _lostAggroRange = 20f;
     
     [SerializeField] private LayerMask _playerLayer;
     
@@ -21,7 +21,6 @@ public class DetectionRange : MonoBehaviour
             if (!isPlayerDetected)
             {
                 isPlayerDetected = true;
-                Debug.Log("Player Detected");
             }
 
         }
@@ -31,7 +30,6 @@ public class DetectionRange : MonoBehaviour
             if (!isPlayerInCloseAttackRange)
             {
                 isPlayerInCloseAttackRange = true;
-                Debug.Log("Player in range");
             }
         }
         
@@ -40,7 +38,6 @@ public class DetectionRange : MonoBehaviour
             if (isPlayerInCloseAttackRange)
             {
                 isPlayerInCloseAttackRange = false;
-                Debug.Log("Player not in range anymore");
             }
             
         }
@@ -50,7 +47,6 @@ public class DetectionRange : MonoBehaviour
             if (isPlayerDetected)
             {
                 isPlayerDetected = false;
-                Debug.Log("Player Lost");
             }
         }
     }
