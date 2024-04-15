@@ -16,11 +16,6 @@ public class Mob_Navigation : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         detectionRange = GetComponent<DetectionRange>();
         animator = GetComponent<Animator>();
-        
-        detectionRange._aggroRange = 10f;
-        detectionRange._attackRange = 8f;
-        detectionRange._lostAggroRange = 20f;
-        
     }
     
     void Update()
@@ -44,7 +39,11 @@ public class Mob_Navigation : MonoBehaviour
             animator.SetFloat("Speed", 0f);
             agent.SetDestination(transform.position);
             animator.SetTrigger("Attack"); 
-            RotateToTarget();
+            
+            if (detectionRange._attackRange > 3f)
+            {
+                RotateToTarget();
+            }
         }
         else
         {
