@@ -1585,6 +1585,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton_Golem
       objectReference: {fileID: 0}
+    - target: {fileID: 29342156862379288, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 802747005008449442, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.8
