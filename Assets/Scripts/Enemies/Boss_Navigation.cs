@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(HealthSystem))]
 public class Boss_Navigation : MonoBehaviour
 {
     

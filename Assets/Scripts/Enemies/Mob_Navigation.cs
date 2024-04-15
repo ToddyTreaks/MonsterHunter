@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(DetectionRange))]
+[RequireComponent(typeof(HealthSystem))]
 public class Mob_Navigation : MonoBehaviour
 {
     public Transform player;
