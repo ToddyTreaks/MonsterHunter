@@ -650,7 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aggroRange: 10
-  _attackRange: 2
+  _attackRange: 1
   _lostAggroRange: 20
   _playerLayer:
     serializedVersion: 2
