@@ -17,11 +17,17 @@ public class Boss_Attack_Phase : MonoBehaviour
     private float _savedAgentSpeed;
     private bool _isAgentStopped = false;
     
+    [SerializeField] private Collider _kickCollider;
+    [SerializeField] private Collider _punchCollider;
+    
     void Start()
     {
         _bossNavigation = GetComponent<Boss_Navigation>(); 
         _detectionRange = GetComponent<DetectionRange>();
         _animator = GetComponent<Animator>();
+        
+        _kickCollider.enabled = false;
+        _punchCollider.enabled = false;
     }
 
     void Update()
@@ -29,16 +35,21 @@ public class Boss_Attack_Phase : MonoBehaviour
         
         if (_bossNavigation.IsFighting && _attackCooldownTimer <= 0)
         {
-            Debug.Log("AttackCoroutine Launched");
+            _kickCollider.enabled = false;
+            _punchCollider.enabled = false;
             StartCoroutine(NextAttack());
             _attackCooldownTimer = 10;
         }
         else if (_bossNavigation.IsFighting)
         {
             _attackCooldownTimer -= Time.deltaTime;
+            if (!_detectionRange.isPlayerInCloseAttackRange)
+                RotateToTarget();
         }
         else if (!_bossNavigation.IsFighting)
         {
+            _kickCollider.enabled = false;
+            _punchCollider.enabled = false;
             StopCoroutine(NextAttack());
             _animator.SetBool("isAttacking", false);
             _bossNavigation._agent.speed = _bossNavigation.Speed;
@@ -53,6 +64,12 @@ public class Boss_Attack_Phase : MonoBehaviour
         _animator.SetBool("isAttacking", true);
         AttackChoice();
         yield return null; 
+    }
+    
+    void RotateToTarget()
+    {
+        var targetRotation = Quaternion.LookRotation(_bossNavigation.player.transform.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _bossNavigation._agent.angularSpeed * Time.deltaTime);
     }
 
     #region AttackChoice
@@ -112,6 +129,7 @@ public class Boss_Attack_Phase : MonoBehaviour
     // Kick
     private void MeleeAttack_Kick()
     {
+        _kickCollider.enabled = true;
         SpeedModification(0.3f);
         SetAttackCooldown(0.5f);
         _animator.SetFloat("Attack", 2);
@@ -120,6 +138,7 @@ public class Boss_Attack_Phase : MonoBehaviour
     // Punch
     private void MeleeAttack_Punch()
     {
+        _punchCollider.enabled = true;
         SpeedModification(0.3f);
         SetAttackCooldown(0.3f);
         _animator.SetFloat("Attack", 3);

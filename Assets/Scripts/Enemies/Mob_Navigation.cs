@@ -11,11 +11,14 @@ public class Mob_Navigation : MonoBehaviour
     private DetectionRange detectionRange;
     private Animator animator;
     
+    [SerializeField] private Collider _weaponCollider;
+    
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         detectionRange = GetComponent<DetectionRange>();
         animator = GetComponent<Animator>();
+        _weaponCollider.enabled = false;
     }
     
     void Update()
@@ -36,6 +39,7 @@ public class Mob_Navigation : MonoBehaviour
     {
         if (detectionRange.isPlayerInCloseAttackRange)
         {
+            _weaponCollider.enabled = true;
             animator.SetFloat("Speed", 0f);
             agent.SetDestination(transform.position);
             animator.SetTrigger("Attack"); 
@@ -47,6 +51,7 @@ public class Mob_Navigation : MonoBehaviour
         }
         else
         {
+            _weaponCollider.enabled = false;
             animator.SetFloat("Speed", 1f);
             agent.SetDestination(player.position);
         }
@@ -55,6 +60,7 @@ public class Mob_Navigation : MonoBehaviour
     
     void NoPlayerDetected()
     {
+        _weaponCollider.enabled = false;
         animator.SetFloat("Speed", 0f);
         agent.SetDestination(transform.position);
     }
