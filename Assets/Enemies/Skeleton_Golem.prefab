@@ -778,6 +778,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _kickCollider: {fileID: 3514879599713185809}
   _punchCollider: {fileID: 584167332553145595}
+  _enemies:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &802747005008449442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}

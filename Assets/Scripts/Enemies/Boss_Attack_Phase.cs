@@ -20,6 +20,9 @@ public class Boss_Attack_Phase : MonoBehaviour
     [SerializeField] private Collider _kickCollider;
     [SerializeField] private Collider _punchCollider;
     
+    [SerializeField] private GameObject[] _enemies;
+    
+    
     void Start()
     {
         _bossNavigation = GetComponent<Boss_Navigation>(); 
@@ -95,7 +98,7 @@ public class Boss_Attack_Phase : MonoBehaviour
     private void DistanceChoice()
     {
         int choice = Random.Range(0, 10);
-        if (choice < 1)
+        if (choice < 1) 
             InvocationChoice();
         else 
             SpellcastChoice();
@@ -156,6 +159,17 @@ public class Boss_Attack_Phase : MonoBehaviour
         SetAttackCooldown(2f);
         _animator.SetFloat("Attack", 0);
         _animator.SetFloat("Invocation", 0);
+        
+        var random = Random.Range(1,2);
+        
+        for (int i = 0; i < random; i++)
+        {
+            Spawn(transform);
+        }
+
+        
+        
+        
     }
     // Invock a swarm of mobs
     private void Spellcast_Summon()
@@ -164,6 +178,20 @@ public class Boss_Attack_Phase : MonoBehaviour
         SetAttackCooldown(3f);
         _animator.SetFloat("Attack", 0);
         _animator.SetFloat("Invocation", 1);
+        
+        var random = Random.Range(3,6);
+        
+        for (int i = 0; i < random; i++)
+        {
+            Spawn(transform);
+        }
+    }
+    
+    public void Spawn(Transform spawnPoint)
+    {
+        int randomEnemy = Random.Range(0, _enemies.Length);
+        var spawnpointNew = new Vector3(Random.Range(-4,4), -0.2f, Random.Range(-4,4));
+        Instantiate(_enemies[randomEnemy], spawnPoint.position + spawnpointNew, Quaternion.identity);
     }
     
     #endregion
