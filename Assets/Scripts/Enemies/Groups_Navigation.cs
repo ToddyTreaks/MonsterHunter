@@ -9,9 +9,12 @@ public class Groups_Navigation : MonoBehaviour
     [SerializeField] private GameObject[] _enemies;
     
     private bool _isOnMove = false;
+    private float spawnTime = 3.5f; 
+    
+    
     private bool _waypointReached = false;
-
-    [SerializeField] private float timeBetweenRoaming = 10f;
+    
+    private float timeBetweenRoaming;
 
 
     void Update()
@@ -20,6 +23,7 @@ public class Groups_Navigation : MonoBehaviour
         {
             StartCoroutine(MoveToWaypoint());
         }
+        
     }
     
     private IEnumerator MoveToWaypoint()
@@ -28,17 +32,14 @@ public class Groups_Navigation : MonoBehaviour
         Transform randomWayPoint = _waypoints[UnityEngine.Random.Range(0, _waypoints.Length)];
         foreach (var enemy in _enemies)
         {
-            var mobNav = enemy.GetComponent<Mob_Navigation>();
-            if (!enemy.GetComponent<DetectionRange>().isPlayerDetected && mobNav.hasSpawned)
+            if (!enemy.GetComponent<DetectionRange>().isPlayerDetected )
             {
                 Vector3 ecart = new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
                 Vector3 randomAroundWayPoint =  randomWayPoint.position + ecart;
                 enemy.GetComponent<NavMeshAgent>().SetDestination(randomAroundWayPoint);
-                
-                Transform randomAroundWayPointTransform = new GameObject().transform;
-                mobNav.RotateToTarget(randomAroundWayPointTransform);
             }
-            
+
+            timeBetweenRoaming = 10f;
         }
         yield return new WaitForSeconds(timeBetweenRoaming);
         _isOnMove = false;
