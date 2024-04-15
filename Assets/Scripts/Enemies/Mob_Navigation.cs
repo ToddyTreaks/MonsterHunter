@@ -13,7 +13,7 @@ public class Mob_Navigation : MonoBehaviour
     private Animator animator;
     
     public bool hasSpawned = false;
-    private float spawnTime = 6f;
+    private float spawnTime = 3.5f;
     
     [SerializeField] private Collider _weaponCollider;
     
@@ -31,28 +31,22 @@ public class Mob_Navigation : MonoBehaviour
     {
         if (!hasSpawned)
         {
-            
-            agent.SetDestination(transform.position);
             if (spawnTime <= 0)
             {
                 hasSpawned = true;
                 agent.enabled = true;
-                Debug.Log("Has Spawned Case");
             }
             else
             {
                 spawnTime -= Time.deltaTime;
-                Debug.Log("Has not Spawned Case");
             }
         }
         else if (detectionRange.isPlayerDetected)
         {
-            Debug.Log("Player Detected Case");
             PlayerDetected();
         }
         else
         {
-            Debug.Log("No Player Detected Case");
             NoPlayerDetected();
         }
     }

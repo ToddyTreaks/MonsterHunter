@@ -98,7 +98,7 @@ public class Boss_Attack_Phase : MonoBehaviour
     private void DistanceChoice()
     {
         int choice = Random.Range(0, 10);
-        if (choice < 1) 
+        if (choice < 10) 
             InvocationChoice();
         else 
             SpellcastChoice();
@@ -190,7 +190,7 @@ public class Boss_Attack_Phase : MonoBehaviour
     public void Spawn(Transform spawnPoint)
     {
         int randomEnemy = Random.Range(0, _enemies.Length);
-        var spawnpointNew = new Vector3(Random.Range(-4,4), -0.2f, Random.Range(-4,4));
+        var spawnpointNew = new Vector3(Random.Range(-4,4), 0, Random.Range(-4,4));
         Instantiate(_enemies[randomEnemy], spawnPoint.position + spawnpointNew, Quaternion.identity);
     }
     
