@@ -7,17 +7,25 @@ public class HealthSystem : MonoBehaviour
     private float _maxLife;
     private float _health;
 
+    private Animator animator;
+
     void Start()
     {
         _health = _maxLife;
+        animator = GetComponent<Animator>();
     }
 
     public void Damage(float health)
     {
+        
         _health -= health;
         if (_health <= 0)
         {
-            Destroy(gameObject);
+            animator.SetTrigger("Death");
+        }
+        else
+        {
+            animator.SetTrigger("Hit");
         }
     }
 

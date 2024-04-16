@@ -5,18 +5,49 @@ using UnityEngine;
 public class DetectionRange : MonoBehaviour
 {
     [SerializeField] private float _aggroRange = 10f;
-    [SerializeField] private float _attackRange = 2f;
+    [SerializeField] internal float _attackRange = 2f;
     [SerializeField] private float _lostAggroRange = 20f;
     
     [SerializeField] private LayerMask _playerLayer;
     
-    void Start()
-    {
-        
-    }
+    internal bool isPlayerDetected = false;
+    internal bool isPlayerInCloseAttackRange = false;
+
 
     void Update()
     {
+        if (Physics.CheckSphere(transform.position, _aggroRange, _playerLayer))
+        {
+            if (!isPlayerDetected)
+            {
+                isPlayerDetected = true;
+            }
+
+        }
         
+        if (Physics.CheckSphere(transform.position, _attackRange, _playerLayer))
+        {
+            if (!isPlayerInCloseAttackRange)
+            {
+                isPlayerInCloseAttackRange = true;
+            }
+        }
+        
+        if (!Physics.CheckSphere(transform.position, _attackRange, _playerLayer))
+        {
+            if (isPlayerInCloseAttackRange)
+            {
+                isPlayerInCloseAttackRange = false;
+            }
+            
+        }
+        
+        if (!Physics.CheckSphere(transform.position, _lostAggroRange, _playerLayer))
+        {
+            if (isPlayerDetected)
+            {
+                isPlayerDetected = false;
+            }
+        }
     }
 }
