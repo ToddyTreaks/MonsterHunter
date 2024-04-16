@@ -9,12 +9,6 @@
         "com.unity.burst": "1.8.4"
       }
     },
-    "com.toddy.uipackage": {
-      "version": "file:C:/Users/thomi/Documents/GitHub/My Package/UI Package - Toddy",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
