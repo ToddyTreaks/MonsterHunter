@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     public static bool isInteract = false;
 
     //for check ground method
-    internal float _groundCheckDistance = 1f;
+    internal float _groundCheckDistance = 1.2f;
     internal float distanceToGround;
 
     //for movement method
@@ -183,22 +183,31 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
 
-        if (!_isGrounded || _isJumping || stopMove || isDashing) return;
-        var vitesse = speed * moveDirection;
+        if (!_isGrounded || _isJumping || isDashing) return;
+        Debug.Log("stopMove = "+stopMove);
+
+        var vitesse = (stopMove ) ? moveDirection : speed * moveDirection;
         _rigidbody.MovePosition(vitesse * Time.deltaTime + transform.position);
         /*        _rigidbody.velocity = new Vector3(vitesse.x, _rigidbody.velocity.y, vitesse.z);*/
     }
-    public void CanMove()
+    private void CanMove()
     {
-        stopMove = (GroundAngle() >= slopeLimit || StopPlayer);
+        stopMove = ((GroundAngle() > slopeLimit) || StopPlayer);
     }
+
+    private bool CheckAngleToMove(Vector3 moveDirection) //if true player can't move
+    {
+        return Vector3.Dot(moveDirection, _groundHit.normal) > 0;
+    }
+
+
     #endregion
 
     #region Jump
     private void Jump() 
     {
 
-        if (_isJumping || !_isGrounded || stopMove || isDashing) return;
+        if (_isJumping || !_isGrounded || isDashing) return;
             
         _isJumping = true;
         _jumpCounter = jumpTimer;
@@ -326,8 +335,8 @@ public class PlayerController : MonoBehaviour
         // prevents the collider from slipping on ramps
         maxFrictionPhysics = new PhysicMaterial();
         maxFrictionPhysics.name = "maxFrictionPhysics";
-        maxFrictionPhysics.staticFriction = 1f;
-        maxFrictionPhysics.dynamicFriction = 1f;
+        maxFrictionPhysics.staticFriction = 0.9f;
+        maxFrictionPhysics.dynamicFriction = 0.9f;
         maxFrictionPhysics.frictionCombine = PhysicMaterialCombine.Maximum;
 
         // air physics 

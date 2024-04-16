@@ -1,9 +1,8 @@
 
 using Assets.Scripts.Character.Objet;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
+using UnityEngine.Rendering;
 
 public class DragAndDrop : MonoBehaviour,
     IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
@@ -28,13 +27,14 @@ public class DragAndDrop : MonoBehaviour,
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
+        ChangeBoolHasObject();
+
         canvasGroup.blocksRaycasts = false;
         parentAfterDrag = transform.parent;
         transform.SetParent(canvas.transform);
         rectTransform.SetAsLastSibling();
         canvas.sortingOrder = 1;
 
-        Debug.Log("take item");
         GameObject dropped = eventData.pointerDrag;
         inventorySystem = canvas.GetComponentInChildren<InventorySystem>();//remove in inventory 
         if (inventorySystem == null) Debug.Log("not found inventorySystem");
@@ -59,6 +59,15 @@ public class DragAndDrop : MonoBehaviour,
         {
             inventorySystem.AddInInventory(item);
         }
+
+        ChangeBoolHasObject();
+    }
+
+    private void ChangeBoolHasObject()
+    {
+        ItemSlot itemSlot = transform.parent.GetComponent<ItemSlot>();
+        if (itemSlot != null) { itemSlot.HasObject(); }
+        else { Debug.LogError("no ItemSlot find in parent"); }
     }
 
     public void OnDrag(PointerEventData eventData)

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PotionAttack : Item
 {
-
     private int attackGive = 0;
     private void Awake()
     {
