@@ -44,7 +44,7 @@ public class HealthSystem : MonoBehaviour
     {
         _health = health;
     }
-    protected void SetMaxLife(float maxLife)
+    public void SetMaxLife(float maxLife)
     {
         _maxLife = maxLife;
     }
