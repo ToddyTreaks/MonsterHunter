@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    private float _maxLife;
-    private float _health;
+    protected float _maxLife = 0;
+    protected float _health = 0;
 
     private Animator animator;
 
     void Start()
     {
-        _health = _maxLife;
         animator = GetComponent<Animator>();
     }
 
