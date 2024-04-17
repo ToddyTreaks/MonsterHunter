@@ -216,7 +216,6 @@ public class PlayerController : MonoBehaviour
         if (!_isGrounded || _isJumping || isDashing) return;
 
         vitesse = (stopMove) ? Vector3.zero : speed * moveDirection;
-        Debug.Log(vitesse);
         _rigidbody.MovePosition(vitesse * Time.deltaTime + transform.position);
         /*        _rigidbody.velocity = new Vector3(vitesse.x, _rigidbody.velocity.y, vitesse.z);*/
     }
