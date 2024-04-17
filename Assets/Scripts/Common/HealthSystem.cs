@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    protected float _maxLife = 0;
-    protected float _health = 0;
+    private float _maxLife = 0;
+    private float _health = 0;
 
     private Animator animator;
 
@@ -40,7 +40,11 @@ public class HealthSystem : MonoBehaviour
     public float GetHealth()
     { return _health; }
 
-    public void SetMaxLife(float maxLife)
+    protected void SetHealth(float health)
+    {
+        _health = health;
+    }
+    protected void SetMaxLife(float maxLife)
     {
         _maxLife = maxLife;
     }
