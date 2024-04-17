@@ -23,7 +23,7 @@ public class PlayerAnimatorControl : MonoBehaviour
         _animator.SetFloat(AnimatorParameters.GroundDistance, _cc.distanceToGround);
         _animator.SetBool(AnimatorParameters.IsDashing, _cc.isDashing);
         _animator.SetFloat(AnimatorParameters.Attack, (_attackScript.typeAttack == Attack.quickAttack) ? 1f : 0f);
-        _animator.SetFloat(AnimatorParameters.Velocity, _cc.moveDirection.magnitude, 0.2f,Time.deltaTime);
+        _animator.SetFloat(AnimatorParameters.Velocity, (_cc.stopMove)? 0 : _cc.moveDirection.magnitude, 0.2f,Time.deltaTime);
     }
 }
 
