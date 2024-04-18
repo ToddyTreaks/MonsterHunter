@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,8 +12,8 @@ namespace Spells
         [SerializeField] float _damage = 10f;
         [SerializeField] float _speed = 5f;
         [SerializeField] float _spellDuration = 4f;
+        private bool _isLaunched;
     
-        private static readonly int Launch = Animator.StringToHash("Launch");
         private static readonly int Hit = Animator.StringToHash("Hit");
 
         #endregion
@@ -22,11 +23,19 @@ namespace Spells
         void Start()
         {
             _animator = GetComponent<Animator>();
-            
+            _isLaunched = false;
         }
         
         #endregion
-        
+
+        private void Update()
+        {
+            if (_isLaunched)
+            {
+                transform.Translate(Vector3.forward * (_speed * Time.deltaTime));
+            }
+        }
+
         #region Setters
     
         public void SetDamage(float damage)
@@ -45,17 +54,7 @@ namespace Spells
     
         public void LaunchSpell()
         {
-            _animator.SetTrigger(Launch);
-            StartCoroutine(SpellMovement());
-        }
-        
-        IEnumerator SpellMovement()
-        {
-            while (true)
-            {
-                transform.Translate(Vector3.forward * (_speed * Time.deltaTime));
-                yield return null;
-            }
+            _isLaunched = true;
         }
 
         private void OnCollisionEnter(Collision other)
