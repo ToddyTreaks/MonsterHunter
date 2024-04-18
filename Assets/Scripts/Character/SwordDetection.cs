@@ -1,3 +1,4 @@
+using Enemies;
 using UnityEngine;
 
 public class SwordDetection : MonoBehaviour
@@ -6,9 +7,10 @@ public class SwordDetection : MonoBehaviour
     private bool hasAttack = false;
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<enemieHealthbdf>(out var enemie) && _animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+        if (other.TryGetComponent<EnemyHealthSystem>(out var enemie) && _animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
         {
-            enemie.ApplyDamage(100);
+            Debug.Log("Hit");
+            enemie.Damage(100);
         }
     }
 }

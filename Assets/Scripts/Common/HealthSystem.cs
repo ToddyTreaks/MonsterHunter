@@ -5,8 +5,8 @@ using UnityEngine;
 //should be inherited
 public class HealthSystem : MonoBehaviour
 {
-    private float _maxLife = 0;
-    private float _health = 0;
+    private float _maxLife = 100f;
+    private float _health = 100f;
 
     public void Damage(float health)
     {
