@@ -1,3 +1,4 @@
+using Assets.Scripts.Character.Objet;
 using Assets.Scripts.Objet.Data;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -43,7 +44,9 @@ public abstract class Item : MonoBehaviour
         if (_amount <= 0)
         {
             _amount = 0;
-            Destroy(transform);
+            Destroy(gameObject);
+            ItemSlot itemSlot = GetComponentInParent<ItemSlot>();
+            if (itemSlot != null) { itemSlot.HasObject();}
         }
         printAmount();
     }
