@@ -1,88 +1,131 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(DetectionRange))]
-[RequireComponent(typeof(HealthSystem))]
-public class Mob_Navigation : MonoBehaviour
+namespace Enemies
 {
-    public Transform player;
-    private NavMeshAgent agent;
-    private DetectionRange detectionRange;
-    private Animator animator;
-    
-    public bool hasSpawned = false;
-    private float spawnTime = 3.5f;
-    
-    [SerializeField] private Collider _weaponCollider;
-    
-    void Start()
+    [RequireComponent(typeof(DetectionRange))]
+    [RequireComponent(typeof(HealthSystem))]
+    public class MobNavigation : MonoBehaviour
     {
-        agent = GetComponent<NavMeshAgent>();
-        detectionRange = GetComponent<DetectionRange>();
-        animator = GetComponent<Animator>();
-        _weaponCollider.enabled = false;
+
+        #region Variables
         
-        agent.enabled = false;
-    }
+        public Transform player;
+        private NavMeshAgent _agent;
+        private DetectionRange _detectionRange;
+        private Animator _animator;
     
-    void Update()
-    {
-        if (!hasSpawned)
+        public bool hasSpawned;
+        private float _spawnTime = 3.5f;
+    
+        [SerializeField] private Collider weaponCollider;
+        [SerializeField] private GameObject bullet;
+        private static readonly int Speed = Animator.StringToHash("Speed");
+        private static readonly int Attack = Animator.StringToHash("Attack");
+
+        #endregion
+
+        #region Start
+
+        void Start()
         {
-            if (spawnTime <= 0)
+            _agent = GetComponent<NavMeshAgent>();
+            _detectionRange = GetComponent<DetectionRange>();
+            _animator = GetComponent<Animator>();
+            weaponCollider.enabled = false;
+        
+            _agent.enabled = false;
+        }
+
+        #endregion
+
+        #region Update
+
+        void Update()
+        {
+            if (!hasSpawned)
+                HasNotSpawned();
+            
+            else if (_detectionRange.IsPlayerDetected)
+                PlayerDetected();
+            
+            else
+                NoPlayerDetected();
+        }
+        
+        private void HasNotSpawned()
+        {
+            if (_spawnTime <= 0)
             {
                 hasSpawned = true;
-                agent.enabled = true;
+                _agent.enabled = true;
             }
             else
             {
-                spawnTime -= Time.deltaTime;
+                _spawnTime -= Time.deltaTime;
             }
         }
-        else if (detectionRange.isPlayerDetected)
-        {
-            PlayerDetected();
-        }
-        else
-        {
-            NoPlayerDetected();
-        }
-    }
+
+        #endregion
+        
+        #region PlayerDetected
     
-    void PlayerDetected()
-    {
-        if (detectionRange.isPlayerInCloseAttackRange)
+        void PlayerDetected()
         {
-            _weaponCollider.enabled = true;
-            animator.SetFloat("Speed", 0f);
-            agent.SetDestination(transform.position);
-            animator.SetTrigger("Attack"); 
+            if (_detectionRange.IsPlayerInCloseAttackRange)
+                PlayerInCloseRange();
+            else
+                PlayerNotInCloseRange();
+        
+        }
+
+        private void PlayerInCloseRange()
+        {
+            weaponCollider.enabled = true;
+            _animator.SetFloat(Speed, 0f);
+            _agent.SetDestination(transform.position);
+            _animator.SetTrigger(Attack); 
             
-            if (detectionRange._attackRange > 3f)
+            if (_detectionRange.attackRange > 3f)
             {
                 RotateToTarget(player);
             }
         }
-        else
+        
+        private void PlayerNotInCloseRange()
         {
-            _weaponCollider.enabled = false;
-            animator.SetFloat("Speed", 1f);
-            agent.SetDestination(player.position);
+            weaponCollider.enabled = false;
+            _animator.SetFloat(Speed, 1f);
+            _agent.SetDestination(player.position);
         }
         
-    }
+        private void RotateToTarget(Transform objectif)
+        {
+            var targetRotation = Quaternion.LookRotation(objectif.transform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _agent.angularSpeed * Time.deltaTime);
+        }
+        
+        
+        
+        #endregion
+        
+        #region NoPlayerDetected
     
-    void NoPlayerDetected()
-    {
-        _weaponCollider.enabled = false;
-        animator.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
-    }
+        void NoPlayerDetected()
+        {
+            weaponCollider.enabled = false;
+            _animator.SetFloat(Speed, _agent.velocity.magnitude / _agent.speed);
+        }
+        
+        #endregion
 
-    public void RotateToTarget(Transform objectif)
-    {
-        var targetRotation = Quaternion.LookRotation(objectif.transform.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, agent.angularSpeed * Time.deltaTime);
+        #region SpellShoot
+        public void InstantiateBullet()
+        {
+            Instantiate(bullet, transform.position, Quaternion.identity);
+        }
+
+        #endregion
+    
     }
 }

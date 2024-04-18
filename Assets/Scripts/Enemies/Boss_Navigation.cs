@@ -1,159 +1,147 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(HealthSystem))]
-public class Boss_Navigation : MonoBehaviour
+namespace Enemies
 {
-    
-
-    #region Variables
-
-    internal float Speed;
-    internal float Attack = 0f;
-    internal float Invocation = 0f;
-    internal float Shoot = 1f;
-    internal bool IsAttacking = false;
-    internal bool IsFighting = false;
-    internal bool IsDead = false;
-    
-    [SerializeField] private float stoppingDistance = 2f;
-    
-    private float maxHealth = 100f;
-    private HealthSystem _healthSystem;
-    private DetectionRange _detectionRange;
-    
-    [SerializeField] internal Transform player;
-    internal NavMeshAgent _agent;
-    private Animator _animator;
-    
-    
-    [SerializeField] private Transform[] _waypoints;
-    private Transform randomWayPoint;
-    
-    #endregion
-    
-    #region Initialization
-
-    private void Awake()
+    [RequireComponent(typeof(HealthSystem))]
+    public class BossNavigation : MonoBehaviour
     {
-        _healthSystem = GetComponent<HealthSystem>();
-        _healthSystem.SetMaxLife(maxHealth);
+    
+
+        #region Variables
+
         
-    }
+        internal bool IsFighting;
+        [SerializeField] private float stoppingDistance;
+        [SerializeField]   float maxHealth = 100f;
     
-    void Start()
-    {
-        _detectionRange = GetComponent<DetectionRange>();
-        _agent = GetComponent<NavMeshAgent>();
-        _animator = GetComponent<Animator>();
-        SetWayPoints();
-        _agent.stoppingDistance = stoppingDistance;
-        Speed = _agent.speed;
-    }
+        private HealthSystem _healthSystem;
+        private DetectionRange _detectionRange;
     
-    #endregion
-
-    #region Update
-
-    void FixedUpdate()
-    {
-        FightStatusUpdate();
-    }
-    void Update()
-    {
+        [SerializeField] internal Transform player;
+        internal NavMeshAgent Agent;
+        private Animator _animator;
+    
+    
+        [SerializeField] private Transform[] waypoints;
+        private Transform _randomWayPoint;
         
-        _animator.SetFloat("Speed", _agent.velocity.magnitude);
-    }
-
-    #endregion
-    
-    #region FightStatus
-
-    void FightStatusUpdate()
-    {
-        HasFightingStatusChanged();
         
-        if (IsFighting)
-            _agent.SetDestination(player.position);
-        else
-            OutOfFightUpdate();
-    }
+        private static readonly int Speed = Animator.StringToHash("Speed");
+        private static readonly int Fighting = Animator.StringToHash("isFighting");
+
+        #endregion
     
-    void HasFightingStatusChanged()
-    {
-        if (_detectionRange.isPlayerDetected && !IsFighting)
+        #region Initialization
+
+        private void Awake()
         {
-            GetInFight();
-        }
-        else if(!IsFighting)
-        {
+            _healthSystem = GetComponent<HealthSystem>();
+            _healthSystem.SetMaxLife(maxHealth);
+            _detectionRange = GetComponent<DetectionRange>();
+            Agent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
             
+            Agent.stoppingDistance = stoppingDistance;
+            IsFighting = false;
+        
         }
-        else if(!_detectionRange.isPlayerDetected && IsFighting)
-        {
-            GotOutOfFight();
-        }
-    }
     
-    #endregion
-    
-    #region OutOfFight
-    
-    void GotOutOfFight()
-    {
-        _animator.SetBool("isFighting", false);
-        IsFighting = false;
-        Debug.Log("GotOutOfFight");
-    }
-    
-    void OutOfFightUpdate()
-    {
-        if (Vector3.Distance(transform.position, randomWayPoint.position) < 5f)
+        void Start()
         {
             SetWayPoints();
-            ToWayPoints();
         }
-        else
+    
+        #endregion
+
+        #region Update
+
+        void FixedUpdate()
         {
-            ToWayPoints();
+            FightStatusUpdate();
         }
-    }
-    
-    void SetWayPoints()
-    {
-        randomWayPoint = _waypoints[Random.Range(0, _waypoints.Length)];
-    }
-    
-    void ToWayPoints()
-    {
-        _agent.SetDestination(randomWayPoint.position);
-    }
-    
-    
-    #endregion
-    
-    #region InFight
-    
-    void GetInFight()
-    {
-        _animator.SetBool("isFighting", true);
-        IsFighting = true;
-        Debug.Log("GetInFight");
-    }
-    
-    #endregion
+        void Update()
+        {
+        
+            _animator.SetFloat(Speed, Agent.velocity.magnitude);
+        }
 
-    #region Death
+        #endregion
+    
+        #region FightStatus
 
-    void Death()
-    {
-        IsDead = true;
+        void FightStatusUpdate()
+        {
+            HasFightingStatusChanged();
+        
+            if (IsFighting)
+                Agent.SetDestination(player.position);
+            else
+                OutOfFightUpdate();
+        }
+    
+        void HasFightingStatusChanged()
+        {
+            if (_detectionRange.IsPlayerDetected && !IsFighting)
+            {
+                GetInFight();
+            }
+            else if(!IsFighting)
+            {
+            
+            }
+            else if(!_detectionRange.IsPlayerDetected && IsFighting)
+            {
+                GotOutOfFight();
+            }
+        }
+    
+        #endregion
+    
+        #region OutOfFight
+    
+        void GotOutOfFight()
+        {
+            _animator.SetBool(Fighting, false);
+            IsFighting = false;
+        }
+    
+        void OutOfFightUpdate()
+        {
+            if (Vector3.Distance(transform.position, _randomWayPoint.position) < 5f)
+            {
+                SetWayPoints();
+                ToWayPoints();
+            }
+            else
+            {
+                ToWayPoints();
+            }
+        }
+    
+        void SetWayPoints()
+        {
+            _randomWayPoint = waypoints[Random.Range(0, waypoints.Length)];
+        }
+    
+        void ToWayPoints()
+        {
+            Agent.SetDestination(_randomWayPoint.position);
+        }
+    
+    
+        #endregion
+    
+        #region InFight
+    
+        void GetInFight()
+        {
+            _animator.SetBool(Fighting, true);
+            IsFighting = true;
+        }
+    
+        #endregion
+
     }
-
-    #endregion
 }

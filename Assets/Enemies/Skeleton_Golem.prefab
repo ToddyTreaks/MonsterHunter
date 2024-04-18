@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -728,8 +728,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoppingDistance: 2
+  maxHealth: 100
   player: {fileID: 0}
-  _waypoints:
+  waypoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -758,10 +759,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ac2062ddd7d3d4d8ec94045eebb9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aggroRange: 10
-  _attackRange: 2
-  _lostAggroRange: 20
-  _playerLayer:
+  aggroRange: 10
+  attackRange: 2
+  lostAggroRange: 20
+  playerLayer:
     serializedVersion: 2
     m_Bits: 64
 --- !u!114 &5503094577022091205
@@ -776,12 +777,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed21b791ea3add54cbdfe2d877fc7b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _kickCollider: {fileID: 3514879599713185809}
-  _punchCollider: {fileID: 584167332553145595}
-  _enemies:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  kickCollider: {fileID: 3514879599713185809}
+  punchCollider: {fileID: 584167332553145595}
+  enemies: []
 --- !u!4 &802747005008449442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}

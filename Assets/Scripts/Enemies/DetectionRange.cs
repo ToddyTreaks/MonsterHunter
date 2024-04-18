@@ -1,53 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectionRange : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private float _aggroRange = 10f;
-    [SerializeField] internal float _attackRange = 2f;
-    [SerializeField] private float _lostAggroRange = 20f;
-    
-    [SerializeField] private LayerMask _playerLayer;
-    
-    internal bool isPlayerDetected = false;
-    internal bool isPlayerInCloseAttackRange = false;
-
-
-    void Update()
+    public class DetectionRange : MonoBehaviour
     {
-        if (Physics.CheckSphere(transform.position, _aggroRange, _playerLayer))
-        {
-            if (!isPlayerDetected)
-            {
-                isPlayerDetected = true;
-            }
+        #region Variables
+    
+        [SerializeField] private float aggroRange;
+        [SerializeField] internal float attackRange;
+        [SerializeField] private float lostAggroRange;
+        [SerializeField] private LayerMask playerLayer;
+    
+        internal bool IsPlayerDetected;
+        internal bool IsPlayerInCloseAttackRange;
 
+        #endregion
+
+        #region Start
+                
+        void Start()
+        {
+            IsPlayerDetected = false;
+            IsPlayerInCloseAttackRange = false;
         }
         
-        if (Physics.CheckSphere(transform.position, _attackRange, _playerLayer))
-        {
-            if (!isPlayerInCloseAttackRange)
-            {
-                isPlayerInCloseAttackRange = true;
-            }
-        }
         
-        if (!Physics.CheckSphere(transform.position, _attackRange, _playerLayer))
+        #endregion
+    
+        #region Update
+
+        void Update()
         {
-            if (isPlayerInCloseAttackRange)
+            if (Physics.CheckSphere(transform.position, aggroRange, playerLayer))
             {
-                isPlayerInCloseAttackRange = false;
+                if (!IsPlayerDetected)
+                {
+                    IsPlayerDetected = true;
+                }
             }
+        
+            if (Physics.CheckSphere(transform.position, attackRange, playerLayer))
+            {
+                if (!IsPlayerInCloseAttackRange)
+                {
+                    IsPlayerInCloseAttackRange = true;
+                }
+            }
+        
+            if (!Physics.CheckSphere(transform.position, attackRange, playerLayer))
+            {
+                if (IsPlayerInCloseAttackRange)
+                {
+                    IsPlayerInCloseAttackRange = false;
+                }
             
-        }
+            }
         
-        if (!Physics.CheckSphere(transform.position, _lostAggroRange, _playerLayer))
-        {
-            if (isPlayerDetected)
+            if (!Physics.CheckSphere(transform.position, lostAggroRange, playerLayer))
             {
-                isPlayerDetected = false;
+                if (IsPlayerDetected)
+                {
+                    IsPlayerDetected = false;
+                }
             }
         }
+    
+        #endregion
     }
 }

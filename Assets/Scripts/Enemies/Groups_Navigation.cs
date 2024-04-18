@@ -1,58 +1,80 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
-public class Groups_Navigation : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] private Transform[] _waypoints;
-    [SerializeField] private GameObject[] _enemies;
-    
-    private bool _isOnMove = false;
-    private float spawnTime = 3.5f; 
-    
-    
-    
-    
-    private bool _waypointReached = false;
-    [SerializeField] private float timeToNextRoaming;
-    private float timeBetweenRoaming;
-
-
-    void Update()
+    public class GroupsNavigation : MonoBehaviour
     {
-        if (!_isOnMove)
+        
+        #region Variables
+        
+        [SerializeField] private Transform[] waypoints;
+        [SerializeField] private GameObject[] enemies;
+        [SerializeField] private float timeToNextRoaming;
+    
+        private bool _isOnMove;
+        private bool _waypointReached;
+    
+        private float _spawnTime; 
+        private float _timeBetweenRoaming;
+        
+        #endregion
+        
+        #region Start
+
+        private void Start()
         {
-            StartCoroutine(MoveToWaypoint());
+            _waypointReached = false;
+            _isOnMove = false;
+        
+            _timeBetweenRoaming = 0f;
+            _spawnTime = 3.5f;
+        }
+
+        #endregion
+        
+        #region Update
+        
+        void Update()
+        {
+            if (!_isOnMove)
+            {
+                StartCoroutine(MoveToWaypoint());
+            }
+        
         }
         
-    }
-    
-    private IEnumerator MoveToWaypoint()
-    {
-        _isOnMove = true;
-        Transform randomWayPoint = _waypoints[UnityEngine.Random.Range(0, _waypoints.Length)];
-        foreach (var enemy in _enemies)
+        #endregion
+        
+        #region Movement
+        
+        private IEnumerator MoveToWaypoint()
         {
-            if (!enemy.GetComponent<DetectionRange>().isPlayerDetected && enemy.GetComponent<Mob_Navigation>().hasSpawned)
+            _isOnMove = true;
+            Transform randomWayPoint = waypoints[Random.Range(0, waypoints.Length)];
+            foreach (var enemy in enemies)
             {
-                Vector3 ecart = new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
-                Vector3 randomAroundWayPoint =  randomWayPoint.position + ecart;
-                enemy.GetComponent<NavMeshAgent>().SetDestination(randomAroundWayPoint);
-                timeBetweenRoaming = timeToNextRoaming;
-            }
-            else
-            {
-                timeBetweenRoaming = 0f;
-            }
+                if (!enemy.GetComponent<DetectionRange>().IsPlayerDetected && enemy.GetComponent<MobNavigation>().hasSpawned)
+                {
+                    Vector3 ecart = new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
+                    Vector3 randomAroundWayPoint =  randomWayPoint.position + ecart;
+                    enemy.GetComponent<NavMeshAgent>().SetDestination(randomAroundWayPoint);
+                    _timeBetweenRoaming = timeToNextRoaming;
+                }
+                else
+                {
+                    _timeBetweenRoaming = 0f;
+                }
 
             
+            }
+        
+            yield return new WaitForSeconds(_timeBetweenRoaming);
+        
+            _isOnMove = false;
         }
         
-        yield return new WaitForSeconds(timeBetweenRoaming);
-        
-        _isOnMove = false;
+        #endregion
     }
-    
-    
 }
