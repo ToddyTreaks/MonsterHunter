@@ -2,34 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//should be inherited
 public class HealthSystem : MonoBehaviour
 {
-    private float _maxLife;
-    private float _health;
+    private float _maxLife = 0;
+    private float _health = 0;
 
-    private Animator animator;
-
-    void Start()
-    {
-        _health = _maxLife;
-        animator = GetComponent<Animator>();
-    }
-
-    public void Damage(float health)
+    protected void Damage(float health)
     {
         
         _health -= health;
+
         if (_health <= 0)
         {
-            animator.SetTrigger("Death");
+            OnDeath();
         }
         else
         {
-            animator.SetTrigger("Hit");
+            OnHit();
         }
     }
 
-    public void Heal(float health)
+    protected void Heal(float health)
     {
         _health += health;
         if (_health > _maxLife)
@@ -38,11 +32,16 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public float GetHealth()
+    protected float GetHealth()
     { return _health; }
 
     public void SetMaxLife(float maxLife)
     {
         _maxLife = maxLife;
+        _health = maxLife;
     }
+
+    public virtual void OnDeath(){}
+
+    public virtual void OnHit(){}
 }

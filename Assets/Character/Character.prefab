@@ -1174,6 +1174,10 @@ PrefabInstance:
       propertyPath: m_ChildScaleHeight
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7180116231583763468, guid: 90885f8718079b745bde27c581afb91b, type: 3}
+      propertyPath: name
+      value: inventaire player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

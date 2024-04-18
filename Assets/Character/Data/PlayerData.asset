@@ -16,8 +16,8 @@ MonoBehaviour:
   rotationSpeed: 12
   ForceGravity: 20
   MouseSensitivity: 1
-  MaxLookAngle: 35
-  MinLookAngle: -30
+  MaxLookAngle: 72
+  MinLookAngle: 0
   JumpForce: 5
   JumpTimer: 0.3
   JumpHeight: 4

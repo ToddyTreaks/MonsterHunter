@@ -40,13 +40,15 @@ public class PlayerController : MonoBehaviour
     public static bool isInteract = false;
 
     //for check ground method
-    internal float _groundCheckDistance = 1.2f;
+    internal float _groundCheckDistance = 1.8f;
     internal float distanceToGround;
+    private int layerMask;
 
     //for movement method
     internal Vector3 input = Vector3.zero;
     internal Vector3 moveDirection;
     internal bool stopMove = false;
+    internal Vector3 vitesse;
 
     // for jump method
     internal static bool _isJumping = false;
@@ -85,6 +87,29 @@ public class PlayerController : MonoBehaviour
         dashDistance = playerData.dashDistance;
         dashTime = playerData.dashTime;
     }
+    void InitPhysicMaterials()
+    {
+        // slides the character through walls and edges
+        frictionPhysics = new PhysicMaterial();
+        frictionPhysics.name = "frictionPhysics";
+        frictionPhysics.staticFriction = .25f;
+        frictionPhysics.dynamicFriction = .25f;
+        frictionPhysics.frictionCombine = PhysicMaterialCombine.Multiply;
+
+        // prevents the collider from slipping on ramps
+        maxFrictionPhysics = new PhysicMaterial();
+        maxFrictionPhysics.name = "maxFrictionPhysics";
+        maxFrictionPhysics.staticFriction = 0.9f;
+        maxFrictionPhysics.dynamicFriction = 0.9f;
+        maxFrictionPhysics.frictionCombine = PhysicMaterialCombine.Maximum;
+
+        // air physics 
+        slippyPhysics = new PhysicMaterial();
+        slippyPhysics.name = "slippyPhysics";
+        slippyPhysics.staticFriction = 0f;
+        slippyPhysics.dynamicFriction = 0f;
+        slippyPhysics.frictionCombine = PhysicMaterialCombine.Minimum;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -103,13 +128,15 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         airSpeed = Mathf.Clamp(airSpeed, 0f, 1f);
-        airSpeed = speed * airSpeed; //prevent airspeed to be superior as speed
+        airSpeed = speed * airSpeed; //prevent airspeed to be greater than speed
 
         _mass = _rigidbody.mass;
 
         dashSpeed = dashDistance / dashTime;
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        layerMask |= 1<<0;
     }
 
     #endregion
@@ -153,8 +180,11 @@ public class PlayerController : MonoBehaviour
 
     private void InputMove()
     {
-        var dirVertical = Input.GetAxisRaw("Vertical") * _cameratTransform.forward;
-        var dirHorizontal = Input.GetAxisRaw("Horizontal") * _cameratTransform.right;
+        var forward = Vector3.ProjectOnPlane(_cameratTransform.forward, Vector3.up);
+        var right = Vector3.ProjectOnPlane(_cameratTransform.right, Vector3.up); 
+        
+        var dirVertical = Input.GetAxisRaw("Vertical") * forward;
+        var dirHorizontal = Input.GetAxisRaw("Horizontal") * right;
         input = (dirHorizontal + dirVertical).normalized;
 
         moveDirection = (input.magnitude < 0.01)
@@ -184,9 +214,8 @@ public class PlayerController : MonoBehaviour
     {
 
         if (!_isGrounded || _isJumping || isDashing) return;
-        Debug.Log("stopMove = "+stopMove);
 
-        var vitesse = (stopMove ) ? moveDirection : speed * moveDirection;
+        vitesse = (stopMove) ? Vector3.zero : speed * moveDirection;
         _rigidbody.MovePosition(vitesse * Time.deltaTime + transform.position);
         /*        _rigidbody.velocity = new Vector3(vitesse.x, _rigidbody.velocity.y, vitesse.z);*/
     }
@@ -207,7 +236,7 @@ public class PlayerController : MonoBehaviour
     private void Jump() 
     {
 
-        if (_isJumping || !_isGrounded || isDashing) return;
+        if (_isJumping || !_isGrounded || isDashing || stopMove) return;
             
         _isJumping = true;
         _jumpCounter = jumpTimer;
@@ -322,30 +351,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ControlMaterial
-
-    void InitPhysicMaterials()
-    {
-        // slides the character through walls and edges
-        frictionPhysics = new PhysicMaterial();
-        frictionPhysics.name = "frictionPhysics";
-        frictionPhysics.staticFriction = .25f;
-        frictionPhysics.dynamicFriction = .25f;
-        frictionPhysics.frictionCombine = PhysicMaterialCombine.Multiply;
-
-        // prevents the collider from slipping on ramps
-        maxFrictionPhysics = new PhysicMaterial();
-        maxFrictionPhysics.name = "maxFrictionPhysics";
-        maxFrictionPhysics.staticFriction = 0.9f;
-        maxFrictionPhysics.dynamicFriction = 0.9f;
-        maxFrictionPhysics.frictionCombine = PhysicMaterialCombine.Maximum;
-
-        // air physics 
-        slippyPhysics = new PhysicMaterial();
-        slippyPhysics.name = "slippyPhysics";
-        slippyPhysics.staticFriction = 0f;
-        slippyPhysics.dynamicFriction = 0f;
-        slippyPhysics.frictionCombine = PhysicMaterialCombine.Minimum;
-    }
     protected void ControlMaterialPhysics()
     {
         // change the physics material to very slip when not grounded
@@ -372,13 +377,20 @@ public class PlayerController : MonoBehaviour
     public void IsGrounded()
     {
         var position = transform.position;
-        var origin = new Vector3(position.x, position.y + 0.5f, position.z + 0.5f);
-        var direction = transform.TransformDirection(Vector3.down);
+        var origin = new Vector3(position.x, position.y + _capsuleCollider.height + 2 * _capsuleCollider.radius, position.z);
+        
+        var direction = Vector3.down;
 
-        Debug.DrawLine(origin, origin+direction * _groundCheckDistance);
-        _isGrounded = Physics.Raycast(origin, direction, out _groundHit, _groundCheckDistance);
 
-        Physics.Raycast(position, Vector3.down, out var hitInfo, Single.PositiveInfinity);
+        
+        _isGrounded = Physics.SphereCast(origin, _capsuleCollider.radius, direction, out var tt, _groundCheckDistance, layerMask);
+
+        origin += moveDirection/2;
+
+        Physics.Raycast(origin, direction, out _groundHit, _groundCheckDistance, layerMask);
+        Debug.DrawLine(origin, origin + direction * _groundCheckDistance);
+
+        Physics.Raycast(position, direction, out var hitInfo, Single.PositiveInfinity, layerMask);
         distanceToGround = hitInfo.distance;
     }
 

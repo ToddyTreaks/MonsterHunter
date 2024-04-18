@@ -19,11 +19,11 @@ public class PlayerData : ScriptableObject
     [Tooltip("mouseSensitivity")]
     public int MouseSensitivity = 1;
 
-    [Range(20, 45)]
+    [Range(0, 180)]
     [Tooltip("maxAngleCamera")]
     public int MaxLookAngle = 35;
 
-    [Range(-45, 0)]
+    [Range(-180, 0)]
     [Tooltip("minAngleCamera")]
     public int MinLookAngle = -30;
 
