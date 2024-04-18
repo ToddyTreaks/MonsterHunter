@@ -62,7 +62,7 @@ namespace Spells
         {
             if (other.gameObject.TryGetComponent<HealthSystem>(out var enemyHealthSystem))
             {
-                enemyHealthSystem.Damage(_damage);
+                //enemyHealthSystem.Damage(_damage);
             }
             StartCoroutine(HitAndDestroy());
         }
