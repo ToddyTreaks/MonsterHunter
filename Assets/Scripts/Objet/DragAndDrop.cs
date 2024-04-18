@@ -52,7 +52,6 @@ public class DragAndDrop : MonoBehaviour,
         canvas.sortingOrder = 0;
 
         GameObject dropped = eventData.pointerDrag;
-        Debug.Log("drop item");
         inventorySystem = canvas.GetComponentInChildren<InventorySystem>();// add in inventory 
         if (inventorySystem == null) Debug.Log("not found inventorySystem");
         if (dropped.transform.TryGetComponent<Item>(out var item))

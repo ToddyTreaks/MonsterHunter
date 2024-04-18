@@ -6,7 +6,6 @@ namespace Assets.Scripts.Character.Objet
 {
     public class InventorySystem : MonoBehaviour
     {
-        public string name;
         private List<Item> Inventory = new List<Item>();
 
         private void AddItem(Item item)
@@ -43,7 +42,6 @@ namespace Assets.Scripts.Character.Objet
 
         private void PrintInventory()
         {
-            Debug.Log(name + " ");
             foreach(Item item in Inventory)
             {
                 Debug.Log(item.Name + " nb = " + item.getAmount());

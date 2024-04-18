@@ -123,6 +123,7 @@ MonoBehaviour:
   Name: dqd
   description: 
   _data: {fileID: 11400000, guid: 2e910a955ef4046469af2795a1f4db05, type: 2}
+  healthPlayer: {fileID: 5604629442978870195, guid: f09e4d61badc21e4fa1f8dea01b0ae5f, type: 3}
 --- !u!114 &7459220439135940226
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -310,6 +310,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator DashCoroutine()
     {
+        HealthPlayer.SetCanHit(false);
         yield return new WaitForSeconds(dashTime);
         _rigidbody.velocity = Vector3.zero;
         isDashing = false;

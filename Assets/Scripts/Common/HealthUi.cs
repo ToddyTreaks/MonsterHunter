@@ -37,7 +37,6 @@ public class HealthUi : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        // Assurer que la position finale est atteinte exactement
         _smooRectTransform.anchorMax = destination;
         yield return null;
     }

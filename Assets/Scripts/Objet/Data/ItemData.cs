@@ -5,7 +5,7 @@ namespace Assets.Scripts.Objet.Data
 {
     public class ItemData : ScriptableObject
     {
-        public string name;
+        public new string name;
 
         public string description;
 

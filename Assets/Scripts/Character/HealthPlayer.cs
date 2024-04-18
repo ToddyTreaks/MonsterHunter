@@ -8,11 +8,21 @@ public class HealthPlayer : HealthSystem
     [SerializeField] HealthUi _healthUi;
 
     private float maxLife = 0;
-    private bool isInvinsible = false;
+    private static bool canHit = true;
+    private Animator _animator;
     void Start()
     {
+        _animator = GetComponent<Animator>();
         maxLife = _playerData.maxLife;
         SetMaxLife(maxLife);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Damage(90);
+        }
     }
     private void UpdateUi()
     {
@@ -20,23 +30,24 @@ public class HealthPlayer : HealthSystem
     }
     public override void OnHit()
     {
-        if (isInvinsible){ return; }
+        if (!canHit){ return; }
         UpdateUi();
     }
 
     public void ApplyHeal(float heal)
     {
         Heal(heal);
+        Debug.Log("heal");
         UpdateUi();
     }
 
-    public void IsInvinsible(bool _isInvinsible)
+    public static void SetCanHit(bool canhit)
     {
-        isInvinsible = _isInvinsible;
+        canHit = canhit;
     }
 
     public override void OnDeath()
     {
-
+        _animator.CrossFade("Death",0.1f);
     }
 }

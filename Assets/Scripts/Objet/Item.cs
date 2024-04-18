@@ -40,7 +40,11 @@ public abstract class Item : MonoBehaviour
     public void Remove(int nb)
     {
         _amount -= nb;
-        if (_amount<=0) { _amount = 0; }
+        if (_amount <= 0)
+        {
+            _amount = 0;
+            Destroy(transform);
+        }
         printAmount();
     }
 
@@ -70,4 +74,6 @@ public abstract class Item : MonoBehaviour
     {
         _numberPrint.PrintAmount(getAmount());
     }
+
+    public virtual void useItem() {}
 }

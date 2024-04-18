@@ -16,6 +16,6 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   nbMaxPotion: 3
-  Heal: 0
+  Heal: 50
   AttackBonus: 0
   ShieldBonus: 0

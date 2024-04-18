@@ -8,9 +8,8 @@ public class HealthSystem : MonoBehaviour
     private float _maxLife = 0;
     private float _health = 0;
 
-    protected void Damage(float health)
+    public void Damage(float health)
     {
-        
         _health -= health;
 
         if (_health <= 0)
@@ -23,7 +22,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    protected void Heal(float health)
+    public void Heal(float health)
     {
         _health += health;
         if (_health > _maxLife)
@@ -40,7 +39,6 @@ public class HealthSystem : MonoBehaviour
         _maxLife = maxLife;
         _health = maxLife;
     }
-
     public virtual void OnDeath(){}
 
     public virtual void OnHit(){}

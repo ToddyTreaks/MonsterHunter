@@ -9,5 +9,10 @@ public class PotionAttack : Item
     {
         attackGive = _data.AttackBonus;
     }
+
+    public override void useItem()
+    {
+        //changer l'attack du player
+    }
 }
 
