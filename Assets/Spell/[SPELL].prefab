@@ -4939,7 +4939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5075889613738898208
 Transform:
   m_ObjectHideFlags: 0
@@ -4975,6 +4975,7 @@ MonoBehaviour:
   _damage: 10
   _speed: 10
   _spellDuration: 4
+  player: {fileID: 0}
 --- !u!95 &5768981270352939461
 Animator:
   serializedVersion: 5

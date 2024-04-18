@@ -1,6 +1,7 @@
-using System;
+using Common;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Spells
 {
@@ -12,7 +13,9 @@ namespace Spells
         [SerializeField] float _damage = 10f;
         [SerializeField] float _speed = 5f;
         [SerializeField] float _spellDuration = 4f;
+        private float _spellDurationTimer;
         private bool _isLaunched;
+        public Transform player;
     
         private static readonly int Hit = Animator.StringToHash("Hit");
 
@@ -30,10 +33,18 @@ namespace Spells
 
         private void Update()
         {
+            Utils.RotateToTarget(transform, player, 10);
             if (_isLaunched)
             {
                 transform.Translate(Vector3.forward * (_speed * Time.deltaTime));
             }
+            
+            if (_spellDurationTimer >= _spellDuration)
+            {
+                Destroy(gameObject);
+            }
+            _spellDurationTimer += Time.deltaTime;
+            
         }
 
         #region Setters

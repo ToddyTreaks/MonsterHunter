@@ -25,6 +25,9 @@ namespace Enemies
         [SerializeField] private Collider kickCollider;
         [SerializeField] private Collider punchCollider;
         [SerializeField] private GameObject[] enemies;
+        [SerializeField] private GameObject spellShort;
+        [SerializeField] private GameObject spellHeavy;
+        [SerializeField] private Transform spellSpawnPoint;
         
         
         private static readonly int Shoot = Animator.StringToHash("Shoot");
@@ -213,6 +216,8 @@ namespace Enemies
             SetAttackCooldown(1f);
             _animator.SetFloat(Attack, 1);
             _animator.SetFloat(Shoot, 0);
+            GameObject bullet = Instantiate(spellShort, spellSpawnPoint.position, Quaternion.identity);
+            bullet.SetActive(true);
         }
         private void Spellcast_ContinuousShoot()
         {
@@ -220,6 +225,8 @@ namespace Enemies
             SetAttackCooldown(1f);
             _animator.SetFloat(Attack, 1);
             _animator.SetFloat(Shoot, 1);
+            GameObject bullet = Instantiate(spellShort, spellSpawnPoint.position, Quaternion.identity);
+            bullet.SetActive(true);
         }
         private void Spellcast_HeavyShoot()
         {
@@ -227,6 +234,8 @@ namespace Enemies
             SetAttackCooldown(3f);
             _animator.SetFloat(Attack, 1);
             _animator.SetFloat(Shoot, 2);
+            GameObject bullet = Instantiate(spellHeavy, spellSpawnPoint.position, Quaternion.identity);
+            bullet.SetActive(true);
         }
     
         #endregion

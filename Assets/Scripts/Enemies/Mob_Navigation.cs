@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Common;
 
 namespace Enemies
 {
@@ -88,7 +89,7 @@ namespace Enemies
             
             if (_detectionRange.attackRange > 3f)
             {
-                RotateToTarget(player);
+                Utils.RotateToTarget(transform, player, 10);
             }
         }
         
@@ -97,12 +98,6 @@ namespace Enemies
             weaponCollider.enabled = false;
             _animator.SetFloat(Speed, 1f);
             _agent.SetDestination(player.position);
-        }
-        
-        private void RotateToTarget(Transform objectif)
-        {
-            var targetRotation = Quaternion.LookRotation(objectif.transform.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _agent.angularSpeed * Time.deltaTime);
         }
         
         
