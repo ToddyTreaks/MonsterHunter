@@ -8,7 +8,7 @@ public class HealthSystem : MonoBehaviour
     private float _maxLife = 0;
     private float _health = 0;
 
-    protected void Damage(float health)
+    public void Damage(float health)
     {
         
         _health -= health;

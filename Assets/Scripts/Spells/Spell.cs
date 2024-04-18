@@ -8,9 +8,9 @@ namespace Spells
         #region Variables
         
         private Animator _animator;
-        private float _damage;
-        private float _speed;
-        private float _spellDuration = 4f;
+        [SerializeField] float _damage = 10f;
+        [SerializeField] float _speed = 5f;
+        [SerializeField] float _spellDuration = 4f;
     
         private static readonly int Launch = Animator.StringToHash("Launch");
         private static readonly int Hit = Animator.StringToHash("Hit");
@@ -62,7 +62,7 @@ namespace Spells
         {
             if (other.gameObject.TryGetComponent<HealthSystem>(out var enemyHealthSystem))
             {
-                //enemyHealthSystem.Damage(_damage);
+                enemyHealthSystem.Damage(_damage);
             }
             StartCoroutine(HitAndDestroy());
         }
@@ -70,6 +70,7 @@ namespace Spells
         IEnumerator HitAndDestroy()
         {
             _animator.SetTrigger(Hit);
+            yield return new WaitForSeconds(1f);
             Destroy(gameObject);
             yield return null;
         }
