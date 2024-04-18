@@ -203,7 +203,7 @@ namespace Enemies
         public void Spawn(Transform spawnPoint)
         {
             int randomEnemy = Random.Range(0, enemies.Length);
-            var spawnpointNew = new Vector3(Random.Range(-4,4), 0, Random.Range(-4,4));
+            var spawnpointNew = new Vector3(Random.Range(-4,4), transform.position.y, Random.Range(-4,4));
             Instantiate(enemies[randomEnemy], spawnPoint.position + spawnpointNew, Quaternion.identity);
         }
     

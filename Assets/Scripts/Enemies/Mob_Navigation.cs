@@ -16,7 +16,10 @@ namespace Enemies
     
         public bool hasSpawned;
         private float _spawnTime = 3.5f;
-    
+        private bool _canAttack = true;
+        [SerializeField] private float _attackCooldown;
+        private float _attackCooldownTimer;
+        
         [SerializeField] private Collider weaponCollider;
         
         private static readonly int Speed = Animator.StringToHash("Speed");
@@ -34,6 +37,7 @@ namespace Enemies
             weaponCollider.enabled = false;
         
             _agent.enabled = false;
+            hasSpawned = false;
         }
 
         #endregion
@@ -50,19 +54,32 @@ namespace Enemies
             
             else
                 NoPlayerDetected();
+            
+            if (!_canAttack)
+                ReloadTime();
         }
         
         private void HasNotSpawned()
         {
+            Debug.Log("Not Spawned");
             if (_spawnTime <= 0)
             {
-                hasSpawned = true;
                 _agent.enabled = true;
+                Debug.Log("Spawned");
+                hasSpawned = true;
             }
             else
             {
                 _spawnTime -= Time.deltaTime;
             }
+        }
+        
+        private void ReloadTime()
+        {
+            if (_attackCooldownTimer > 0)
+                _attackCooldownTimer -= Time.deltaTime;
+            else
+                _canAttack = true;
         }
 
         #endregion
@@ -71,7 +88,7 @@ namespace Enemies
     
         void PlayerDetected()
         {
-            if (_detectionRange.IsPlayerInCloseAttackRange)
+            if (_detectionRange.IsPlayerInCloseAttackRange && _canAttack)
                 PlayerInCloseRange();
             else
                 PlayerNotInCloseRange();
@@ -80,6 +97,8 @@ namespace Enemies
 
         public virtual void PlayerInCloseRange()
         {
+            _canAttack = false;
+            _attackCooldownTimer = _attackCooldown;
             weaponCollider.enabled = true;
             _animator.SetFloat(Speed, 0f);
             _agent.SetDestination(transform.position);

@@ -697,6 +697,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5503094577022091205}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3400684207032890931}
   m_SourcePrefab: {fileID: 100100000, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
 --- !u!1 &29342156862379288 stripped
 GameObject:
@@ -798,10 +801,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kickCollider: {fileID: 3514879599713185809}
   punchCollider: {fileID: 584167332553145595}
-  enemies: []
+  enemies:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spellShort: {fileID: 0}
   spellHeavy: {fileID: 0}
   spellSpawnPoint: {fileID: 8219519190355328166}
+--- !u!114 &3400684207032890931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29342156862379288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b659af83f0b80d14eba50348e1e6531c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &802747005008449442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}

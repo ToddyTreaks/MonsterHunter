@@ -1296,8 +1296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   hasSpawned: 0
-  weaponCollider: {fileID: 0}
-  bullet: {fileID: 0}
+  _attackCooldown: 0
+  weaponCollider: {fileID: 2714775091379565807}
 --- !u!114 &4273930471904975011
 MonoBehaviour:
   m_ObjectHideFlags: 0

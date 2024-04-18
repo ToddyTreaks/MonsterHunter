@@ -1387,8 +1387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   hasSpawned: 0
-  weaponCollider: {fileID: 0}
-  bullet: {fileID: 0}
+  _attackCooldown: 0
+  weaponCollider: {fileID: 125076585883157907}
 --- !u!195 &6842201213555840157
 NavMeshAgent:
   m_ObjectHideFlags: 0
