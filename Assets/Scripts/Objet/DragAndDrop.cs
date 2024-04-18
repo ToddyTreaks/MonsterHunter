@@ -9,8 +9,8 @@ public class DragAndDrop : MonoBehaviour,
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    [HideInInspector] public Canvas canvas;
 
+    [HideInInspector] public Canvas canvas;
     [HideInInspector] public Transform parentAfterDrag;
     private InventorySystem inventorySystem;
 
