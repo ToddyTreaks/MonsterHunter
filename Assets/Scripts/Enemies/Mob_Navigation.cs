@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Common;
 
 namespace Enemies
 {
     [RequireComponent(typeof(DetectionRange))]
-    [RequireComponent(typeof(HealthSystem))]
     public class MobNavigation : MonoBehaviour
     {
 
@@ -20,7 +18,7 @@ namespace Enemies
         private float _spawnTime = 3.5f;
     
         [SerializeField] private Collider weaponCollider;
-        [SerializeField] private GameObject bullet;
+        
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int Attack = Animator.StringToHash("Attack");
 
@@ -80,19 +78,14 @@ namespace Enemies
         
         }
 
-        private void PlayerInCloseRange()
+        public virtual void PlayerInCloseRange()
         {
             weaponCollider.enabled = true;
             _animator.SetFloat(Speed, 0f);
             _agent.SetDestination(transform.position);
-            _animator.SetTrigger(Attack); 
-            
-            if (_detectionRange.attackRange > 3f)
-            {
-                Utils.RotateToTarget(transform, player, 10);
-            }
+            _animator.SetTrigger(Attack);
         }
-        
+
         private void PlayerNotInCloseRange()
         {
             weaponCollider.enabled = false;
@@ -114,13 +107,7 @@ namespace Enemies
         
         #endregion
 
-        #region SpellShoot
-        public void InstantiateBullet()
-        {
-            Instantiate(bullet, transform.position, Quaternion.identity);
-        }
-
-        #endregion
+        
     
     }
 }

@@ -1355,7 +1355,7 @@ PrefabInstance:
       addedObject: {fileID: 1673105398260175737}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0a8b87885932d0f46a64cf693ae61d8d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3982291727755539740}
+      addedObject: {fileID: 7381588571498058875}
   m_SourcePrefab: {fileID: 100100000, guid: 0a8b87885932d0f46a64cf693ae61d8d, type: 3}
 --- !u!4 &2581854968086357535 stripped
 Transform:
@@ -1403,7 +1403,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   hasSpawned: 0
-  _weaponCollider: {fileID: 2284024736629491032}
+  weaponCollider: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!114 &1673105398260175737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1416,13 +1417,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ac2062ddd7d3d4d8ec94045eebb9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aggroRange: 10
-  _attackRange: 8
-  _lostAggroRange: 20
-  _playerLayer:
+  aggroRange: 10
+  attackRange: 8
+  lostAggroRange: 16
+  playerLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &3982291727755539740
+--- !u!114 &7381588571498058875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1431,6 +1432,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2927137200974675109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15c447094c353964a96318aecf1948b2, type: 3}
+  m_Script: {fileID: 11500000, guid: b659af83f0b80d14eba50348e1e6531c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

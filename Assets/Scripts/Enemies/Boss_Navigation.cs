@@ -4,7 +4,6 @@ using Random = UnityEngine.Random;
 
 namespace Enemies
 {
-    [RequireComponent(typeof(HealthSystem))]
     public class BossNavigation : MonoBehaviour
     {
     
