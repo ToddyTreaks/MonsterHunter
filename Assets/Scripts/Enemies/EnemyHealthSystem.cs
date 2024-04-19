@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Enemies
@@ -26,6 +27,12 @@ namespace Enemies
         public override void OnDeath()
         {
             _animator.SetTrigger(Death);
+            StartCoroutine("DeathMob");
+        }
+
+        IEnumerator DeathMob()
+        {
+            yield return new WaitForSeconds(5f);
             Destroy(gameObject);
         }
 
