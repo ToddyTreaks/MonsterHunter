@@ -23,7 +23,7 @@ namespace Spells
 
         #endregion
         
-        #region Start
+        #region Initialization
 
         void Start()
         {
@@ -32,7 +32,9 @@ namespace Spells
         }
         
         #endregion
-
+        
+        #region Update
+        
         private void Update()
         {
             Utils.RotateToTarget(transform, player, 10);
@@ -48,6 +50,8 @@ namespace Spells
             _spellDurationTimer += Time.deltaTime;
             
         }
+        
+        #endregion
 
         #region Setters
     
