@@ -1231,6 +1231,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c90547d1c702bad4ea182ff1803ded17, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4273930471904975011}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c90547d1c702bad4ea182ff1803ded17, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5397008511650169009}
   m_SourcePrefab: {fileID: 100100000, guid: c90547d1c702bad4ea182ff1803ded17, type: 3}
 --- !u!4 &513124371869934466 stripped
 Transform:
@@ -1310,6 +1313,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b659af83f0b80d14eba50348e1e6531c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5397008511650169009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888664095557384504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b653db04d8ece844c8486d683bc2901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Spawn
+    clip: {fileID: 8300000, guid: ecb605e849df0b3468a958ab9ddd2f17, type: 3}
+    mixerGroup: {fileID: -1988885614497043176, guid: ace1a88ad50411e43bbb44616dbc5585, type: 2}
+    volume: 1
+    spatialBlend: 1
+    pitch: 0.2
+    loop: 0
+    playOnAwake: 1
+    source: {fileID: 0}
+  - name: Step
+    clip: {fileID: 8300000, guid: 5929b5dab0cd9a44796a6263500efa52, type: 3}
+    mixerGroup: {fileID: -1988885614497043176, guid: ace1a88ad50411e43bbb44616dbc5585, type: 2}
+    volume: 1
+    spatialBlend: 1
+    pitch: 2
+    loop: 0
+    playOnAwake: 0
+    source: {fileID: 0}
+  - name: Hit
+    clip: {fileID: 8300000, guid: 2153e6dfa6e8526488b79ae4c096ff98, type: 3}
+    mixerGroup: {fileID: -1988885614497043176, guid: ace1a88ad50411e43bbb44616dbc5585, type: 2}
+    volume: 1
+    spatialBlend: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    source: {fileID: 0}
+  - name: Death
+    clip: {fileID: 8300000, guid: c79257e0fd2b298479d1de4c9fd44af9, type: 3}
+    mixerGroup: {fileID: -1988885614497043176, guid: ace1a88ad50411e43bbb44616dbc5585, type: 2}
+    volume: 1
+    spatialBlend: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    source: {fileID: 0}
+  - name: Attack
+    clip: {fileID: 8300000, guid: bd5912b70797e6441973ddbf1bca48f9, type: 3}
+    mixerGroup: {fileID: -1988885614497043176, guid: ace1a88ad50411e43bbb44616dbc5585, type: 2}
+    volume: 1
+    spatialBlend: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    source: {fileID: 0}
 --- !u!1001 &3542729628378884862
 PrefabInstance:
   m_ObjectHideFlags: 0
