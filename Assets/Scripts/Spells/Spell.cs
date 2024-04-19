@@ -1,5 +1,7 @@
+using System;
 using Common;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -68,17 +70,18 @@ namespace Spells
             _isLaunched = true;
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent<HealthSystem>(out var enemyHealthSystem))
+            if (other.gameObject.TryGetComponent<HealthSystem>(out var healthSystem))
             {
-                enemyHealthSystem.Damage(_damage);
+                healthSystem.Damage(_damage);
             }
             StartCoroutine(HitAndDestroy());
         }
-        
+
         IEnumerator HitAndDestroy()
         {
+            _isLaunched = false;
             _animator.SetTrigger(Hit);
             yield return new WaitForSeconds(1f);
             Destroy(gameObject);
