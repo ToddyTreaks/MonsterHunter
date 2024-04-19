@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Enemies
 {
@@ -32,6 +33,7 @@ namespace Enemies
 
         IEnumerator DeathMob()
         {
+            gameObject.GetComponent<EnemyNavigation>()._isDead = true;
             yield return new WaitForSeconds(5f);
             Destroy(gameObject);
         }

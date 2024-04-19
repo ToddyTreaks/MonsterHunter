@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace Enemies
 {
-    public class BossNavigation : MonoBehaviour
+    public class BossNavigation : EnemyNavigation
     {
     
 
@@ -21,7 +21,6 @@ namespace Enemies
         [SerializeField] internal Transform player;
         internal NavMeshAgent Agent;
         private Animator _animator;
-    
     
         [SerializeField] private Transform[] waypoints;
         private Transform _randomWayPoint;
@@ -58,11 +57,11 @@ namespace Enemies
 
         void FixedUpdate()
         {
-            FightStatusUpdate();
+            if (!_isDead)
+                FightStatusUpdate();
         }
         void Update()
         {
-        
             _animator.SetFloat(Speed, Agent.velocity.magnitude);
         }
 

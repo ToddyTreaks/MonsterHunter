@@ -4,7 +4,7 @@ using UnityEngine.AI;
 namespace Enemies
 {
     [RequireComponent(typeof(DetectionRange))]
-    public class MobNavigation : MonoBehaviour
+    public class MobNavigation : EnemyNavigation
     {
 
         #region Variables
@@ -46,17 +46,20 @@ namespace Enemies
 
         void Update()
         {
-            if (!hasSpawned)
-                HasNotSpawned();
+            if (!_isDead)
+            {
+                if (!hasSpawned)
+                    HasNotSpawned();
             
-            else if (_detectionRange.IsPlayerDetected)
-                PlayerDetected();
+                else if (_detectionRange.IsPlayerDetected)
+                    PlayerDetected();
             
-            else
-                NoPlayerDetected();
+                else
+                    NoPlayerDetected();
             
-            if (!_canAttack)
-                ReloadTime();
+                if (!_canAttack)
+                    ReloadTime();
+            }
         }
         
         private void HasNotSpawned()
