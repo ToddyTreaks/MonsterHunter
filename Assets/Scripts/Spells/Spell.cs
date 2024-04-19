@@ -17,6 +17,7 @@ namespace Spells
         [SerializeField] float _spellDuration = 4f;
         private float _spellDurationTimer;
         private bool _isLaunched;
+        private bool _hasHit;
         public Transform player;
     
         private static readonly int Hit = Animator.StringToHash("Hit");
@@ -29,6 +30,7 @@ namespace Spells
         {
             _animator = GetComponent<Animator>();
             _isLaunched = false;
+            _hasHit = false;
         }
         
         #endregion
@@ -76,14 +78,18 @@ namespace Spells
             {
                 healthSystem.Damage(_damage);
             }
-            StartCoroutine(HitAndDestroy());
+            if (!_hasHit)
+            {
+                StartCoroutine(HitAndDestroy());
+                _hasHit = true;
+            }
         }
 
         IEnumerator HitAndDestroy()
         {
             _isLaunched = false;
             _animator.SetTrigger(Hit);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
             Destroy(gameObject);
             yield return null;
         }

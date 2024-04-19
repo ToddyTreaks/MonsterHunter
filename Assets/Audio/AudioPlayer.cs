@@ -18,6 +18,7 @@ public class AudioPlayer : MonoBehaviour
             sound.source.pitch = sound.pitch;
             if (sound.playOnAwake)
                 sound.source.Play();
+            else sound.source.playOnAwake = false;
         } 
     }
 

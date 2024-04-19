@@ -711,11 +711,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 827542857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d61ca3bb529702746817193081f53ff0, type: 3}
+  m_Script: {fileID: 11500000, guid: 15c447094c353964a96318aecf1948b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: 9f6dc1008f44c4a4c83ce21d5569b5c9, type: 2}
-  _healthUi: {fileID: 0}
 --- !u!4 &848828458 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 802747005008449442, guid: ec35d7c5125f8b64eaaae0a726bdbfef, type: 3}
@@ -1615,6 +1613,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 15318932661197184, guid: 9a799569c792e2a4aa5dd40466c59a82, type: 3}
+      propertyPath: sounds.Array.data[2].loop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3552131504293449469, guid: 9a799569c792e2a4aa5dd40466c59a82, type: 3}
       propertyPath: m_Name
       value: '[SPELL]'
