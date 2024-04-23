@@ -3,14 +3,16 @@ using UnityEngine;
 
 public class SwordDetection : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
-    private bool hasAttack = false;
+    [SerializeField] Animator _animator;
+
+    public static int Damage = 0;
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<EnemyHealthSystem>(out var enemie) && _animator.GetCurrentAnimatorStateInfo(1).IsName("Attack"))
+        if (other.TryGetComponent<EnemyHealthSystem>(out var enemie) && !_animator.GetCurrentAnimatorStateInfo(1).IsName("empty"))
         {
-            Debug.Log("Hit");
-            enemie.Damage(100);
+            Debug.Log("hit");
+            enemie.Damage(Damage);
         }
     }
 }

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _cameratTransform;
 
     private PlayerAnimatorControl _anim;
-    private Animator _animator;
+    protected Animator _animator;
 
     #region ScriptableVariable
 
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     //for movement method
     internal Vector3 input = Vector3.zero;
     internal Vector3 moveDirection;
-    internal bool stopMove = false;
+    internal static bool stopMove = false;
     internal Vector3 vitesse;
 
     // for jump method
@@ -155,14 +155,13 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         UpdateMotor();
-        if (StopPlayer) return;
+        if (StopPlayer || AttackScript.StopMoveWhenAttack) return;
         Move();
+        UpDateInput();
     }
 
     void Update()
     {
-        _anim.UpdateAnimation();
-        UpDateInput();
         if (StopPlayer) return;
         Rotate();
     }
@@ -216,6 +215,7 @@ public class PlayerController : MonoBehaviour
         if (!_isGrounded || _isJumping || isDashing) return;
 
         vitesse = (stopMove) ? Vector3.zero : speed * moveDirection;
+
         _rigidbody.MovePosition(vitesse * Time.deltaTime + transform.position);
         /*        _rigidbody.velocity = new Vector3(vitesse.x, _rigidbody.velocity.y, vitesse.z);*/
     }

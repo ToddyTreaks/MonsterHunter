@@ -8,22 +8,23 @@ public class PlayerAnimatorControl : MonoBehaviour
 
     private Animator _animator;
     private PlayerController _cc;
-    private AttackScript _attackScript;
 
     void Start()
     {
         _animator = GetComponent<Animator>();
         _cc = GetComponent<PlayerController>();
-        _attackScript = GetComponent<AttackScript>();
     }
 
+    void OnAnimatorMove()
+    {
+        UpdateAnimation();
+    }
     internal void UpdateAnimation()
     {
         _animator.SetBool(AnimatorParameters.IsGrounded, _cc._isGrounded);
         _animator.SetFloat(AnimatorParameters.GroundDistance, _cc.distanceToGround);
         _animator.SetBool(AnimatorParameters.IsDashing, _cc.isDashing);
-        _animator.SetFloat(AnimatorParameters.Attack, (_attackScript.typeAttack == Attack.quickAttack) ? 1f : 0f);
-        _animator.SetFloat(AnimatorParameters.Velocity, (_cc.stopMove)? 0 : _cc.moveDirection.magnitude, 0.2f,Time.deltaTime);
+        _animator.SetFloat(AnimatorParameters.Velocity, (PlayerController.stopMove)? 0 : _cc.moveDirection.magnitude, 0.2f,Time.deltaTime);
     }
 }
 
@@ -35,5 +36,4 @@ public static partial class AnimatorParameters
     public static int IsSprinting = Animator.StringToHash("isSprinting");
     public static int IsDashing = Animator.StringToHash("isDashing");
     public static int GroundDistance = Animator.StringToHash("groundDistance");
-    public static int Attack = Animator.StringToHash("Attack");
 }
