@@ -29,6 +29,7 @@ public class PotionAttack : Item
     private void SetBonusAttack(int attackBonus)
     {
         AttackScript.BonusDamage = attackBonus;
+        Debug.Log("f");
     }
 }
 
