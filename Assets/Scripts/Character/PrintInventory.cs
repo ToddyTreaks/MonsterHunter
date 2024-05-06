@@ -6,7 +6,7 @@ namespace Assets.Scripts.Character
 {
     public class PrintInventory : MonoBehaviour
     {
-        [SerializeField] private AnimationInventory animInventoryPlayer;
+/*        [SerializeField] private AnimationInventory animInventoryPlayer;
         private bool isOpen = false;
 
         private void Update()
@@ -20,9 +20,8 @@ namespace Assets.Scripts.Character
 
         private void Interact()
         {
-            PlayerController.isInteract = false;
             animInventoryPlayer.TriggerInventoryAnim();
             isOpen = !isOpen;
-        }
+        }*/
     }
 }

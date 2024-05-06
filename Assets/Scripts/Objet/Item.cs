@@ -1,6 +1,4 @@
 using Assets.Scripts.Character.Objet;
-using Assets.Scripts.Objet.Data;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public abstract class Item : MonoBehaviour

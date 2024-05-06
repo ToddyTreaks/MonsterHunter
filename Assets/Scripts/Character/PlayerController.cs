@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     public static bool isUseItem;
     
     //For interact method
-    public static bool isInteract = false;
+    public static bool tryToInteract = false;
 
     //for check ground method
     internal float _groundCheckDistance = 1.8f;
@@ -157,11 +157,11 @@ public class PlayerController : MonoBehaviour
         UpdateMotor();
         if (StopPlayer || AttackScript.StopMoveWhenAttack) return;
         Move();
-        UpDateInput();
     }
 
     void Update()
     {
+        UpDateInput();
         if (StopPlayer) return;
         Rotate();
     }
@@ -206,9 +206,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            
-            isInteract = true;
-            Debug.Log(isInteract);
+            tryToInteract = true;
+        }
+        else
+        {
+            tryToInteract = false;
         }
     }
     #endregion

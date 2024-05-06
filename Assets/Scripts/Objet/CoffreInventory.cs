@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Assets.Scripts.Character.Objet
 {
@@ -10,6 +11,7 @@ namespace Assets.Scripts.Character.Objet
         private bool _playerIsAround = false;
         private bool _canvaIsActive = false;
 
+        private bool _coffreIsOpen = false;
         private void Start()
         {
             _canva.SetActive(false);
@@ -22,8 +24,7 @@ namespace Assets.Scripts.Character.Objet
         #region input
         private void inputInteract()
         {
-            Debug.Log(PlayerController.isInteract);
-            if ( PlayerController.isInteract && _playerIsAround) Interact();
+            if ( PlayerController.tryToInteract && _playerIsAround) Interact();
         }
 
         void OnTriggerEnter()
@@ -38,12 +39,29 @@ namespace Assets.Scripts.Character.Objet
         }
         private void Interact()
         {
-            Debug.Log("h");
-            PlayerController.isInteract = false;
-            _canvaIsActive = !_canvaIsActive;
-            PlayerController.StopPlayer = _canvaIsActive;
+            if (_coffreIsOpen)
+            {
+                OnCLose();
+            }
+            else OnOpen();
+        }
+
+        private void OnOpen()
+        {
+            _coffreIsOpen = true;
+            _canvaIsActive = true;
+            PlayerController.StopPlayer = true;
             _canva.SetActive(_canvaIsActive);
-            Cursor.lockState = (_canvaIsActive) ? CursorLockMode.Confined :CursorLockMode.Locked;
+            Cursor.lockState = (_canvaIsActive) ? CursorLockMode.Confined : CursorLockMode.Locked;
+        }
+
+        private void OnCLose()
+        {
+            _coffreIsOpen = false;
+            _canvaIsActive = false;
+            PlayerController.StopPlayer = false;
+            _canva.SetActive(_canvaIsActive);
+            Cursor.lockState = (_canvaIsActive) ? CursorLockMode.Confined : CursorLockMode.Locked;
         }
         #endregion
 
