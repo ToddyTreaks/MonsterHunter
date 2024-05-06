@@ -21,4 +21,8 @@ public class PotionData : ItemData
     [Range(1, 100)]
     [Tooltip("ShieldBonus")]
     public int ShieldBonus = 0;
+
+    [Range(0, 10)] 
+    [Tooltip(("Duration"))] 
+    public float duration = 1;
 }

@@ -5,7 +5,6 @@ namespace Assets.Scripts.Character.Objet
 {
     public class CoffreInventory : MonoBehaviour
     {
-        [SerializeField] private AnimationInventory animInventoryPlayer;
 
         [SerializeField] private GameObject _canva;
         private bool _playerIsAround = false;
@@ -23,6 +22,7 @@ namespace Assets.Scripts.Character.Objet
         #region input
         private void inputInteract()
         {
+            Debug.Log(PlayerController.isInteract);
             if ( PlayerController.isInteract && _playerIsAround) Interact();
         }
 
@@ -38,8 +38,8 @@ namespace Assets.Scripts.Character.Objet
         }
         private void Interact()
         {
+            Debug.Log("h");
             PlayerController.isInteract = false;
-            animInventoryPlayer.TriggerInventoryAnim();
             _canvaIsActive = !_canvaIsActive;
             PlayerController.StopPlayer = _canvaIsActive;
             _canva.SetActive(_canvaIsActive);

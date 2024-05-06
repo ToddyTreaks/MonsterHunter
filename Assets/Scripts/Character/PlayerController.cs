@@ -204,7 +204,12 @@ public class PlayerController : MonoBehaviour
 
     private static void InputInteract()
     {
-        if (Input.GetButtonDown("Interact")) isInteract = true;
+        if (Input.GetButtonDown("Interact"))
+        {
+            
+            isInteract = true;
+            Debug.Log(isInteract);
+        }
     }
     #endregion
 

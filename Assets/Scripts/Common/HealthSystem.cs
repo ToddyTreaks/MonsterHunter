@@ -8,9 +8,11 @@ public class HealthSystem : MonoBehaviour
     private float _maxLife = 100f;
     private float _health = 100f;
 
+    internal float shieldPotion = 0;
+
     public void Damage(float health)
     {
-        _health -= health;
+        _health -= health - shieldPotion;
 
         if (_health <= 0)
         {

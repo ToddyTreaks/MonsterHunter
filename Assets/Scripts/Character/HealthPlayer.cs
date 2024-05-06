@@ -6,10 +6,11 @@ public class HealthPlayer : HealthSystem
 
     [SerializeField] PlayerData _playerData;
     [SerializeField] HealthUi _healthUi;
-
+    
     private float maxLife = 0;
     private static bool canHit = true;
     private Animator _animator;
+
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -17,13 +18,6 @@ public class HealthPlayer : HealthSystem
         SetMaxLife(maxLife);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Damage(90);
-        }
-    }
     private void UpdateUi()
     {
         _healthUi.UpdateFill(GetHealth(), maxLife);

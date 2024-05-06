@@ -14,6 +14,7 @@ public class AttackScript : MonoBehaviour
     private float maxComboDelay = 2f;
 
     public static bool StopMoveWhenAttack = false;
+    public static int BonusDamage = 0;
 
     [SerializeField] private AttackData _attackData;
     internal enum Attack
@@ -101,6 +102,7 @@ public class AttackScript : MonoBehaviour
         {
             _animator.SetBool("hit1", false);
             _animator.SetBool("Combo1", false);
+            _animator.SetBool("Combo2", false);
         }
         if (_animator.GetCurrentAnimatorStateInfo(layer).normalizedTime > 0.7f
             && _animator.GetCurrentAnimatorStateInfo(layer).IsName("Attack2"))
@@ -121,13 +123,14 @@ public class AttackScript : MonoBehaviour
     {
         typeAttack = Attack.quickAttack;
         _animator.SetBool("Combo1",true);
-        SwordDetection.Damage = _attackData.DamageQuickAttaque;
+        SwordDetection.Damage = _attackData.DamageQuickAttaque + BonusDamage;
     }
 
     public void LongAttack()
     {
         typeAttack = Attack.longAttack;
-        /*_animator.CrossFade("Attack", 0.1f);*/
+        _animator.SetBool("Combo2",true);
+        SwordDetection.Damage = _attackData.DamageLongAttaque + BonusDamage;
     }
     #endregion
 }
