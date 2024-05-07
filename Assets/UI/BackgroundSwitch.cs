@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundSwitch : MonoBehaviour
@@ -9,32 +7,47 @@ public class BackgroundSwitch : MonoBehaviour
     public float _speedDown = 0.1f;
     public float _speedLeft = 0.1f;
     
+    [SerializeField] private float CountDown = 5f;
+    private float _currentTime = 0f;
+    
+    
+
+    private void Start()
+    {
+        _currentTime = CountDown;
+        _backgrounds[_currentBackground].GetComponent<Animator>().SetTrigger("Open");   
+    }
 
     void Update()
     {
-        TranslationBackground();
-        if (_backgrounds[_currentBackground].transform.localPosition.y <= -100)
+        if (_currentTime <= 0)
         {
+            _currentTime = CountDown;
             SwitchBackground();
         }
+        else
+        {
+            _currentTime -= Time.deltaTime;
+        }
+        TranslationBackground();
+        
     }
     
-    public void TranslationBackground()
+    private void TranslationBackground()
     {
         _backgrounds[_currentBackground].transform.Translate(Vector3.down * _speedDown);
         _backgrounds[_currentBackground].transform.Translate(Vector3.left * _speedLeft);
     }
     
-    public void SwitchBackground()
+    private void SwitchBackground()
     {
-        // _backgrounds[_currentBackground].LeanAlpha(0, 0.4f);
-        
-        _backgrounds[_currentBackground].transform.localPosition = new Vector3(0, 0, 0);
+        _backgrounds[_currentBackground].GetComponent<Animator>().SetTrigger("Close");
         _currentBackground++;
         if (_currentBackground >= _backgrounds.Length)
         {
             _currentBackground = 0;
         }
-        // _backgrounds[_currentBackground].LeanAlpha(1, 0.4f);
+        
+        _backgrounds[_currentBackground].GetComponent<Animator>().SetTrigger("Open");
     }
 }
