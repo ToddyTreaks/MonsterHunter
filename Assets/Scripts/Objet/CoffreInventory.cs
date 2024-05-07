@@ -54,7 +54,7 @@ namespace Assets.Scripts.Character.Objet
             _coffreIsOpen = true;
             _canvaIsActive = true;
             PlayerController.StopPlayer = true;
-            _canva.SetActive(_canvaIsActive);
+            _canva.SetActive(true);
             Cursor.lockState = (_canvaIsActive) ? CursorLockMode.Confined : CursorLockMode.Locked;
         }
 
@@ -63,7 +63,7 @@ namespace Assets.Scripts.Character.Objet
             _coffreIsOpen = false;
             _canvaIsActive = false;
             PlayerController.StopPlayer = false;
-            _canva.SetActive(_canvaIsActive);
+            _canva.SetActive(false);
             Cursor.lockState = (_canvaIsActive) ? CursorLockMode.Confined : CursorLockMode.Locked;
         }
         #endregion
