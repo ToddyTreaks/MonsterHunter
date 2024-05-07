@@ -7,7 +7,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public string description;
     protected Sprite icon;
 
-    protected int _amount;
+    public int _amount = 1;
     protected int _amountStockableMax;
 
     private static int seed = 0;
@@ -21,7 +21,6 @@ public abstract class Item : MonoBehaviour
         _numberPrint = GetComponentInChildren<NumberItem>();
         if (_numberPrint == null ) Debug.LogError("can't find NumberItem in " + transform.name);
         _amountStockableMax = _data.nbMaxPotion;
-        _amount = _amountStockableMax;
         
         Name = _data.name;
         description = _data.description;
