@@ -1746,6 +1746,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton_Warrior
       objectReference: {fileID: 0}
+    - target: {fileID: 5327258186119158215, guid: 68a1e4dd197efd14288a4485dd85c1f4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1879,6 +1883,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton_Mage
       objectReference: {fileID: 0}
+    - target: {fileID: 2927137200974675109, guid: e7003ddc628db594b80c50a9ea884060, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8809107245391604210, guid: e7003ddc628db594b80c50a9ea884060, type: 3}
       propertyPath: spell
       value: 
@@ -1943,6 +1951,10 @@ PrefabInstance:
     - target: {fileID: 888664095557384504, guid: af6f6d13ae21df24dbefeb45fe61d9bf, type: 3}
       propertyPath: m_Name
       value: Skeleton_Minion
+      objectReference: {fileID: 0}
+    - target: {fileID: 888664095557384504, guid: af6f6d13ae21df24dbefeb45fe61d9bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9101168561134132585, guid: af6f6d13ae21df24dbefeb45fe61d9bf, type: 3}
       propertyPath: player

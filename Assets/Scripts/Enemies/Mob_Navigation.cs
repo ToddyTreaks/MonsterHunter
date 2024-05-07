@@ -95,7 +95,6 @@ namespace Enemies
                 PlayerInCloseRange();
             else
                 PlayerNotInCloseRange();
-        
         }
 
         public virtual void PlayerInCloseRange()
