@@ -8,6 +8,7 @@ namespace Assets.Scripts.Character.Objet
     {
 
         [SerializeField] private GameObject _canva;
+        [SerializeField] private Animator _animator;
         private bool _playerIsAround = false;
         private bool _canvaIsActive = false;
 
@@ -51,6 +52,7 @@ namespace Assets.Scripts.Character.Objet
 
         private void OnOpen()
         {
+            _animator.SetBool("ChestOpen",true);
             _coffreIsOpen = true;
             _canvaIsActive = true;
             PlayerController.StopPlayer = true;
@@ -60,6 +62,7 @@ namespace Assets.Scripts.Character.Objet
 
         private void OnCLose()
         {
+            _animator.SetBool("ChestOpen", false);
             _coffreIsOpen = false;
             _canvaIsActive = false;
             PlayerController.StopPlayer = false;
