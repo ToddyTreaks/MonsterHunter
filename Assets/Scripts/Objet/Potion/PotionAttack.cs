@@ -14,11 +14,11 @@ public class PotionAttack : Item
 
     public override void useItem()
     {
-        DurationOfItem();
+        StartCoroutine(DurationOfItem());
     }
 
     IEnumerator DurationOfItem()
-    {
+    { 
         SetBonusAttack(attackGive);
         yield return new WaitForSeconds(duration);
 
@@ -29,7 +29,7 @@ public class PotionAttack : Item
     private void SetBonusAttack(int attackBonus)
     {
         AttackScript.BonusDamage = attackBonus;
-        Debug.Log("f");
+        Remove(1);
     }
 }
 

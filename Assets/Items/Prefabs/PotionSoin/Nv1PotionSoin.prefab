@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 261410992637509629, guid: b9badaa248920734eae3f33bb250e75f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1886894282, guid: 389df483f89073b4cb0f15ff2def780b, type: 3}
     - target: {fileID: 5423111152620158825, guid: b9badaa248920734eae3f33bb250e75f, type: 3}
       propertyPath: m_Name
       value: Nv1PotionSoin

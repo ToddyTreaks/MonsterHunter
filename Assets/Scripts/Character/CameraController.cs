@@ -5,13 +5,18 @@ public class CameraController : MonoBehaviour
 {
 
     [SerializeField] private GameObject _target;
+
+    [SerializeField] private Transform _cameraTransform;
     [SerializeField] private PlayerData playerData;
+
+    [SerializeField] private LayerMask _layerMask;
 
     private int maxLookAngle = 35;
     private int minLookAngle = -30;
     private int mouseSensitivity = 1;
 
-
+    private float smoothTime = 10f;
+    private Vector3 _camera_offset;
 
     void Start()
     {
@@ -19,12 +24,15 @@ public class CameraController : MonoBehaviour
         maxLookAngle = playerData.MaxLookAngle;
         minLookAngle = playerData.MinLookAngle;
 
+        _camera_offset = transform.localPosition;
+
     }
 
     void Update()
     {
         if (PlayerController.StopPlayer) return;
         RotateCamera();
+        CameraMovement();
     }
 
     private void RotateCamera()
@@ -42,5 +50,31 @@ public class CameraController : MonoBehaviour
         transform.localEulerAngles = rotation;
 
         transform.position = _target.transform.position;
+    }
+
+    private void CameraMovement()
+    {
+        if (CheckObstacleToTarget())
+        {
+            Debug.Log("il y'a des obstacles");
+        }
+        else
+        {
+            Debug.Log("pas d'obstacle");
+        }
+    }
+
+    private bool CheckObstacleToTarget()
+    {
+        bool isObstacle =false;
+        Vector3 origin = _cameraTransform.position;
+        Vector3 destination = _target.transform.position;
+        Vector3 direction = -(origin - destination).normalized;
+        float distanceMax = (origin - destination).magnitude - 0.5f;
+
+        Debug.Log(origin);
+        Debug.DrawRay(origin,direction,Color.red);
+        isObstacle = Physics.SphereCast(origin, 1, direction, out var hitInfo, distanceMax);
+        return isObstacle;
     }
 }

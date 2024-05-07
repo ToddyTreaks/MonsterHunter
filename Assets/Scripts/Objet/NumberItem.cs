@@ -10,6 +10,7 @@ public class NumberItem : MonoBehaviour
     private void Start()
     {
         _nb = GetComponent<TextMeshProUGUI>();
+        if ( _nb == null ) Debug.LogError("not find TextMeshProUGUI in " + transform.name);
     }
 
     public void PrintAmount(int amount)

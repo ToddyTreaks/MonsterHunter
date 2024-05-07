@@ -19,8 +19,10 @@ public abstract class Item : MonoBehaviour
     private void Start()
     {
         _numberPrint = GetComponentInChildren<NumberItem>();
+        if (_numberPrint == null ) Debug.LogError("can't find NumberItem in " + transform.name);
         _amountStockableMax = _data.nbMaxPotion;
         _amount = _amountStockableMax;
+        
         Name = _data.name;
         description = _data.description;
         icon = _data.icon;

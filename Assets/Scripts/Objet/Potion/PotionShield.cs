@@ -7,26 +7,28 @@ public class PotionShield : Item
     internal HealthPlayer healthPlayer;
     private int shieldGive = 0;
     private float duration = 0;
-    private void Start()
+
+    private void Awake()
     {
-        shieldGive = _data.Heal;
+        shieldGive = _data.ShieldBonus;
         healthPlayer = (HealthPlayer)FindFirstObjectByType(typeof(HealthPlayer));
+        if (healthPlayer == null ) Debug.LogError("Not find HealPlayer in PotionShield");
     }
 
     public override void useItem()
     {
-        DurationOfItem();
+        StartCoroutine(DurationOfItem());
+        Remove(1);
     }
     IEnumerator DurationOfItem()
     {
-        SetBonusAttack(shieldGive);
+        SetBonusShield(shieldGive);
         yield return new WaitForSeconds(duration);
 
-        SetBonusAttack(0);
-        yield return null;
+        SetBonusShield(0);
     }
 
-    private void SetBonusAttack(int shieldBonus)
+    private void SetBonusShield(int shieldBonus)
     {
         healthPlayer.shieldPotion = shieldBonus;
     }

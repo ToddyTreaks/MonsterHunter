@@ -30,7 +30,7 @@ namespace Assets.Scripts.Character.Methode
                 UseItem(listItemSlot[2]);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 UseItem(listItemSlot[3]);
             }

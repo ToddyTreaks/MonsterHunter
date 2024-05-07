@@ -19,7 +19,6 @@ namespace Assets.Scripts.Character.Objet
         private void Update()
         {
             inputInteract();
-            Debug.Log(PlayerController.tryToInteract);
         }
 
         #region input
