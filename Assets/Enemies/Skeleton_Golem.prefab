@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6599455011471634757}
   - component: {fileID: 584167332553145595}
+  - component: {fileID: 1508027026576125561}
   m_Layer: 0
   m_Name: Punch - AttackCollider
   m_TagString: Untagged
@@ -55,6 +56,19 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1508027026576125561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130234266133099138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c2d42a13af1b74a8c629fe291aba16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 10
 --- !u!1 &6600481115334803233
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,6 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9006664044500577148}
   - component: {fileID: 3514879599713185809}
+  - component: {fileID: 3239173523278684293}
   m_Layer: 0
   m_Name: Kick - AttackCollider
   m_TagString: Untagged
@@ -110,6 +125,19 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3239173523278684293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6600481115334803233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c2d42a13af1b74a8c629fe291aba16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 15
 --- !u!1 &7654941358136736052
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,13 +731,7 @@ PrefabInstance:
       addedObject: {fileID: 5503094577022091205}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3400684207032890931}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7458808380267340785}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7581030494028325138}
   m_SourcePrefab: {fileID: 100100000, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}
 --- !u!1 &29342156862379288 stripped
 GameObject:
@@ -819,19 +841,6 @@ MonoBehaviour:
   spellShort: {fileID: 0}
   spellHeavy: {fileID: 0}
   spellSpawnPoint: {fileID: 8219519190355328166}
---- !u!114 &3400684207032890931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 29342156862379288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b659af83f0b80d14eba50348e1e6531c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shieldPotion: 0
 --- !u!114 &7458808380267340785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,33 +917,6 @@ MonoBehaviour:
     loop: 0
     playOnAwake: 0
     source: {fileID: 0}
---- !u!54 &7581030494028325138
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 29342156862379288}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!4 &802747005008449442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 26c18e4f37faeb8479e9bdfb4e30daa8, type: 3}

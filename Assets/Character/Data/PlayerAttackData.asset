@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c06aa1f7eb7f984d8d7a2e9a233b7a9, type: 3}
   m_Name: PlayerAttackData
   m_EditorClassIdentifier: 
-  DamageQuickAttaque: 10
+  DamageQuickAttaque: 15
   DamageLongAttaque: 50

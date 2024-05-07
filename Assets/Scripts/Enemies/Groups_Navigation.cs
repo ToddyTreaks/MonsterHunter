@@ -13,9 +13,7 @@ namespace Enemies
         [SerializeField] private float timeToNextRoaming;
 
         private bool _isOnMove;
-        private bool _waypointReached;
 
-        private float _spawnTime;
         private float _timeBetweenRoaming;
 
         #endregion
@@ -24,11 +22,9 @@ namespace Enemies
 
         private void Start()
         {
-            _waypointReached = false;
             _isOnMove = false;
 
             _timeBetweenRoaming = 0f;
-            _spawnTime = 3.5f;
         }
 
         #endregion
@@ -53,7 +49,7 @@ namespace Enemies
             Transform randomWayPoint = waypoints[Random.Range(0, waypoints.Length)];
             foreach (var enemy in enemies)
             {
-                if (enemy == null)  
+                if (enemy == null)
                     continue;
 
                 if (!enemy.GetComponent<DetectionRange>().IsPlayerDetected &&

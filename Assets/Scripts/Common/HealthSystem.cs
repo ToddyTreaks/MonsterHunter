@@ -5,7 +5,7 @@ using UnityEngine;
 //should be inherited
 public class HealthSystem : MonoBehaviour
 {
-    private float _maxLife = 100f;
+    public float _maxLife = 100f;
     private float _health = 100f;
 
     public float shieldPotion = 0;
