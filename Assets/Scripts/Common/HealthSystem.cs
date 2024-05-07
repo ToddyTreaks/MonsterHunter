@@ -6,7 +6,7 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     public float _maxLife = 100f;
-    private float _health = 100f;
+    public float _health = 100f;
 
     public float shieldPotion = 0;
 
@@ -34,14 +34,21 @@ public class HealthSystem : MonoBehaviour
     }
 
     protected float GetHealth()
-    { return _health; }
+    {
+        return _health;
+    }
 
     public void SetMaxLife(float maxLife)
     {
         _maxLife = maxLife;
         _health = maxLife;
     }
-    public virtual void OnDeath(){}
 
-    public virtual void OnHit(){}
+    public virtual void OnDeath()
+    {
+    }
+
+    public virtual void OnHit()
+    {
+    }
 }
