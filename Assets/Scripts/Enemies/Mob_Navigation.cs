@@ -64,11 +64,11 @@ namespace Enemies
         
         private void HasNotSpawned()
         {
-            Debug.Log("Not Spawned");
+            /*Debug.Log("Not Spawned");*/
             if (_spawnTime <= 0)
             {
                 _agent.enabled = true;
-                Debug.Log("Spawned");
+                /*Debug.Log("Spawned");*/
                 hasSpawned = true;
             }
             else
