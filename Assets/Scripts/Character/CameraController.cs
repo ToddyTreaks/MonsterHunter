@@ -70,11 +70,10 @@ public class CameraController : MonoBehaviour
         Vector3 origin = _cameraTransform.position;
         Vector3 destination = _target.transform.position;
         Vector3 direction = -(origin - destination).normalized;
-        float distanceMax = (origin - destination).magnitude - 0.5f;
+        float distanceMax = (origin - destination).magnitude - 1f;
 
-        Debug.Log(origin);
         Debug.DrawRay(origin,direction,Color.red);
-        isObstacle = Physics.SphereCast(origin, 1, direction, out var hitInfo, distanceMax);
+        isObstacle = Physics.Raycast(origin, direction, out var hitInfo, distanceMax);
         return isObstacle;
     }
 }
