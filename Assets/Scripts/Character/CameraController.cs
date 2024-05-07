@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
     {
         if (PlayerController.StopPlayer) return;
         RotateCamera();
-        CameraMovement();
+        /*CameraMovement();*/
     }
 
     private void RotateCamera()
@@ -52,28 +52,34 @@ public class CameraController : MonoBehaviour
         transform.position = _target.transform.position;
     }
 
-    private void CameraMovement()
+/*    private void CameraMovement()
     {
-        if (CheckObstacleToTarget())
+*//*        if (CheckObstacleToTarget())
         {
             Debug.Log("il y'a des obstacles");
+            Vector3 destination = Vector3.up;
+            if ((destination - _cameraTransform.position).magnitude < 1) return;
+            *//*_cameraTransform.localPosition = Mathf.Lerp(_cameraTransform.localPosition.z, 1, 0.1f);*//*
+            Debug.Log(_cameraTransform.position);
         }
         else
         {
+            _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, _camera_offset, Time.deltaTime);
             Debug.Log("pas d'obstacle");
-        }
+        }*//*
     }
 
     private bool CheckObstacleToTarget()
     {
-        bool isObstacle =false;
+        bool isObstacle = false;
         Vector3 origin = _cameraTransform.position;
-        Vector3 destination = _target.transform.position;
-        Vector3 direction = -(origin - destination).normalized;
-        float distanceMax = (origin - destination).magnitude - 1f;
+        Vector3 destination = _target.transform.position +Vector3.up;
+        Vector3 direction = (destination - origin).normalized;
+        float distanceMax = (origin - destination).magnitude;
 
-        Debug.DrawRay(origin,direction,Color.red);
-        isObstacle = Physics.Raycast(origin, direction, out var hitInfo, distanceMax);
+        Debug.DrawLine(origin, origin+direction * distanceMax, Color.red);
+        *//*isObstacle = Physics.SphereCast(origin, 1, direction, out var hitInfo, distanceMax,1<<0);*//*
+        isObstacle = Physics.Raycast(origin, direction, out var hitInfo, distanceMax,_layerMask);
         return isObstacle;
-    }
+    }*/
 }
