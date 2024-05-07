@@ -53,7 +53,7 @@ namespace Enemies
             Transform randomWayPoint = waypoints[Random.Range(0, waypoints.Length)];
             foreach (var enemy in enemies)
             {
-                if (enemy == null)
+                if (enemy == null)  
                     continue;
 
                 if (!enemy.GetComponent<DetectionRange>().IsPlayerDetected &&

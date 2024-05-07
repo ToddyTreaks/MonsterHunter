@@ -245,7 +245,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b653db04d8ece844c8486d683bc2901c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Main Music
+    clip: {fileID: 8300000, guid: 98d208e29483bbb4188a9a59b6ea97a0, type: 3}
+    mixerGroup: {fileID: -4157798975033721965, guid: ace1a88ad50411e43bbb44616dbc5585, type: 2}
+    volume: 0.1
+    spatialBlend: 0
+    pitch: 1
+    loop: 1
+    playOnAwake: 1
+    source: {fileID: 0}
 --- !u!114 &1283404940
 MonoBehaviour:
   m_ObjectHideFlags: 0
