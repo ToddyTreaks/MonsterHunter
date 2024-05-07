@@ -32,11 +32,11 @@ namespace Assets.Scripts.Character.Objet
             _playerIsAround = true;
         }
 
-        void OnTriggerExit()
+/*        void OnTriggerExit()
         {
             _playerIsAround = false;
             _canva.SetActive(false);
-        }
+        }*/
         private void Interact()
         {
             if (_coffreIsOpen)
